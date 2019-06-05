@@ -1,0 +1,25 @@
+<div class="instance-selector-widget__display {% if display_image_url %}instance-selector-widget__display--has-image{% else %}instance-selector-widget__display--no-image{% endif %}">
+    <div class="instance-selector-widget__display__image-wrap">
+        <a
+            href="{{ edit_url }}"
+            class="instance-selector-widget__display__edit-link instance-selector-widget__display__edit-link--image js-instance-selector-widget-display-edit-link"
+            target="_blank"
+        >
+            <img
+                {% if display_image_url %}
+                    src="{{ display_image_url }}"
+                {% endif %}
+                class="instance-selector-widget__display__image"
+            >
+        </a>
+    </div>
+    <div class="instance-selector-widget__display__title-wrap">
+        <a
+            href="{{ edit_url }}"
+            class="instance-selector-widget__display__edit-link instance-selector-widget__display__edit-link--title js-instance-selector-widget-display-edit-link"
+            target="_blank"
+        >
+            <span class="instance-selector-widget__display__title">{{ display_title }}</span>
+        </a>
+    </div>
+</div>

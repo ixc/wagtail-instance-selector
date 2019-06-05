@@ -1,0 +1,45 @@
+<html>
+<head>
+    <style>
+        body {
+            padding: 0;
+            margin: 0;
+        }
+        iframe {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
+    </style>
+</head>
+<body style>
+    <iframe src="{{ embed_url|safe }}" frameborder="0"></iframe>
+    <script>
+        (() => {
+            // If the embed is loaded directly, we just log to the console. This is intended
+            // for testing widget code
+            const DEBUG_MODE = window.parent === window;
+
+            const EMBED_ID = window.location.hash.split('#instance_selector_embed_id:')[1];
+            if (!DEBUG_MODE && !EMBED_ID) {
+                throw new Error('`EMBED_ID` cannot be determined from the hash');
+            }
+
+            window.addEventListener('message', function(message) {
+                if (message.data && message.data.source === '{{ embed_id }}') {
+                    var object_pk = message.data.object_pk;
+                    if (DEBUG_MODE) {
+                        console.log('object_pk received', object_pk);
+                    } else {
+                        const parent_message = {
+                            source: EMBED_ID,
+                            object_pk
+                        };
+                        window.parent.postMessage(parent_message, location.origin);
+                    }
+                }
+            });
+        })();
+    </script>
+</body>
+</html>

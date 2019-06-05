@@ -1,0 +1,45 @@
+<div
+    id="{{ widget_id }}"
+    class="instance-selector-widget {% if value %}instance-selector-widget--selected{% else %}instance-selector-widget--unselected{% endif %} {% if widget.is_required %}instance-selector-widget--required{% else %}instance-selector-widget--not-required{% endif %}"
+>
+    <div class="instance-selector-widget__display-wrap js-instance-selector-widget-display-wrap">
+        {{ display_markup }}
+    </div>
+    <div class="instance-selector-widget__actions">
+        {% if not widget.is_required %}
+            <button
+                type="button"
+                class="button button-small button-secondary instance-selector-widget__actions__clear js-instance-selector-widget-clear"
+            >
+                {{ widget.clear_choice_text }}
+            </button>
+        {% endif %}
+        <button
+            type="button"
+            class="button button-small button-secondary instance-selector-widget__actions__trigger js-instance-selector-widget-trigger"
+        >
+            <span class="instance-selector-widget__actions__trigger__choose-another">{{ widget.choose_another_text }}</span>
+            <span class="instance-selector-widget__actions__trigger__choose-one">{{ widget.choose_one_text }}</span>
+            <span class="instance-selector-widget__loading-indicator">↻</span>
+        </button>
+        <a
+            href="{{ edit_url }}"
+            class="edit-link button button-small button-secondary instance-selector-widget__actions__edit js-instance-selector-widget-edit"
+            target="_blank"
+        >{{ widget.link_to_chosen_text }}</a>
+    </div>
+</div>
+
+{{ original_field_html }}
+
+<script>
+    create_instance_selector_widget({
+        input_id: '{{ input_id }}',
+        widget_id: '{{ widget_id }}',
+        field_name: '{{ name }}',
+        embed_url: '{{ embed_url }}',
+        embed_id: '{{ embed_id }}',
+        lookup_url: '{{ lookup_url }}',
+        OBJECT_PK_PARAM: '{{ OBJECT_PK_PARAM }}'
+    });
+</script>

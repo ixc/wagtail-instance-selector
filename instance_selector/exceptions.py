@@ -1,0 +1,2 @@
+class ModelAdminLookupFailed(Exception):
+    pass

@@ -1,0 +1,92 @@
+.is-instance-selector-embed .wrapper {
+    padding-left: 0;
+}
+
+.is-instance-selector-embed .nav-wrapper {
+    display: none;
+}
+
+.is-instance-selector-embed .header-title .right {
+    float: left;
+}
+
+.instance-selector__success-message__select-button {
+    cursor: pointer;
+}
+
+.is-instance-selector-embed .listing .actions > *:not(.instance-selector__select-button) {
+    display: none;
+}
+
+.is-instance-selector-embed .instance-selector__select-button {
+    cursor: pointer;
+}
+
+.instance-selector-widget .unchosen:before {
+    margin-right: 0;
+}
+
+.instance-selector-widget-modal__content {
+    padding-bottom: 0;
+}
+
+.instance-selector-widget-modal__body {
+    height: 90vh;
+}
+
+.instance-selector-widget-modal__embed {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.instance-selector-widget-modal .button.close {
+    right: 25px;
+}
+
+.instance-selector-widget__loading-indicator {
+    display: none;
+    animation: instance-selector-widget__loading-indicator__spin_animation 1s infinite linear;
+}
+
+@keyframes instance-selector-widget__loading-indicator__spin_animation {
+    from {
+        transform:rotate(0deg);
+    }
+    to {
+        transform:rotate(360deg);
+    }
+}
+
+.instance-selector-widget--is-loading .instance-selector-widget__loading-indicator {
+    display: inline-block;
+}
+
+.instance-selector-widget--is-loading .instance-selector-widget__actions__trigger {
+    cursor: not-allowed;
+}
+
+.instance-selector-widget--unselected .instance-selector-widget__display,
+.instance-selector-widget--unselected .instance-selector-widget__actions__clear,
+.instance-selector-widget--unselected .instance-selector-widget__actions__edit,
+.instance-selector-widget--unselected .instance-selector-widget__actions__trigger__choose-another {
+    display: none;
+}
+
+.instance-selector-widget--unselected .instance-selector-widget__actions__trigger {
+    margin-left: 0;
+}
+
+.instance-selector-widget--selected .instance-selector-widget__actions__trigger__choose-one {
+    display: none;
+}
+
+.instance-selector-widget__display {
+    margin-bottom: 10px;
+}
+
+.instance-selector-widget__display--no-image .instance-selector-widget__display__image-wrap {
+    display: none;
+}
