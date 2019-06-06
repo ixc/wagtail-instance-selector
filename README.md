@@ -173,7 +173,7 @@ Items can be created within the selection widget.
 
 ![](./images/creation.png)
 
-After creation, items can be selected from the success message of from the list view.
+After creation, items can be selected from the success message or from the list view.
 
 ![](./images/post_creation.png)
 
