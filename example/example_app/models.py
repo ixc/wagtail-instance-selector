@@ -32,15 +32,16 @@ class Product(models.Model):
 
 
 class Image(models.Model):
-    PENDING = 'pending'
-    APPROVED = 'pending'
+    PENDING = "pending"
+    APPROVED = "pending"
 
     title = models.CharField(max_length=1000)
     image = models.ImageField(upload_to="example_app_images")
-    status = models.CharField(max_length=1000, choices=(
-        (PENDING, 'Pending'),
-        (APPROVED, 'Approved'),
-    ), default=PENDING)
+    status = models.CharField(
+        max_length=1000,
+        choices=((PENDING, "Pending"), (APPROVED, "Approved")),
+        default=PENDING,
+    )
 
     def __str__(self):
         return self.title

@@ -2,14 +2,14 @@
 
 A widget for Wagtail's admin that allows you to create and select related items.
 
-- Installation
-- Documentation
-  - Using the widget as a field panel
-  - Using the widget in a stream field
-  - Customizing widget display
-- Features and screenshots
-- Rationale & Credits
-- Development notes
+- [Installation](#installation)
+- [Documentation](#documentation)
+  - [Using the widget as a field panel](#using-the-widget-as-a-field-panel)
+  - [Using the widget in a stream field](#using-the-widget-in-a-stream-field)
+  - [Customizing the widget's display and behaviour](#customizing-the-widgets-display-and-behaviour)
+- [Features and screenshots](#features-and-screenshots)
+- [Rationale & Credits](#rationale--credits)
+- [Development notes](#development-notes)
 
 
 ## Installation
@@ -90,7 +90,7 @@ StreamField([
 ```
 
 
-### Customizing the widget for a model
+### Customizing the widget's display and behaviour
 
 ```python
 from wagtail.contrib.modeladmin.options import ModelAdmin, modeladmin_register

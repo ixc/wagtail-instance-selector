@@ -18,14 +18,18 @@ class ProductAdmin(ModelAdmin):
 @modeladmin_register
 class ImageAdmin(ModelAdmin):
     model = Image
-    list_display = ('__str__', 'image_preview')
-    list_filter = ('status',)
+    list_display = ("__str__", "image_preview")
+    list_filter = ("status",)
 
     def image_preview(self, instance):
         if instance:
-            return mark_safe('<img src="%s" style="max-width: 165px; max-height: 165px;">' % instance.image.url)
-        return ''
-    image_preview.short_description = 'Image'
+            return mark_safe(
+                '<img src="%s" style="max-width: 165px; max-height: 165px;">'
+                % instance.image.url
+            )
+        return ""
+
+    image_preview.short_description = "Image"
 
 
 class ImageInstanceSelector(ModelAdminInstanceSelector):

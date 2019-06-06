@@ -5,14 +5,16 @@ from django.db import migrations, models
 
 class Migration(migrations.Migration):
 
-    dependencies = [
-        ('example_app', '0001_initial'),
-    ]
+    dependencies = [("example_app", "0001_initial")]
 
     operations = [
         migrations.AddField(
-            model_name='image',
-            name='status',
-            field=models.CharField(choices=[('pending', 'Pending'), ('pending', 'Approved')], default='pending', max_length=1000),
-        ),
+            model_name="image",
+            name="status",
+            field=models.CharField(
+                choices=[("pending", "Pending"), ("pending", "Approved")],
+                default="pending",
+                max_length=1000,
+            ),
+        )
     ]
