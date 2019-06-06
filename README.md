@@ -2,35 +2,14 @@
 
 A widget for Wagtail's admin that allows you to create and select related items.
 
-- Features and screenshots
 - Installation
 - Documentation
   - Using the widget as a field panel
   - Using the widget in a stream field
   - Customizing widget display
+- Features and screenshots
 - Rationale & Credits
 - Development notes
-
-## Features and screenshots
-
-### Customizable widget display
-
-By default, widgets appear similar to other Wagtail elements, but they can be customised to include images 
-and other items.
-
-![Instance selector panels with customised widgets](./images/fields.png)
-
-
-### Item selection reuses the admin's list views to ensure consistent UIs with filtering.
-
-![List view showing filters and create button](./images/list_view.png)
-
-
-### Inline creation
-
-Items can be created within the selection widget.
-
-![Image of Yaktocat](./images/creation.png)
 
 
 ## Installation
@@ -171,6 +150,28 @@ registry.register_instance_selector(MyModel, MyModelInstanceSelector())
 
 Note that the `ModelAdminInstanceSelector` is designed for the common case. If your needs
 are more specific, you may find some use in `instance_selector.selectors.BaseInstanceSelector`.
+
+
+## Features and screenshots
+
+### Customizable widget display
+
+By default, widgets appear similar to other Wagtail elements, but they can be customised to include images 
+and other items.
+
+![](./images/fields.png)
+
+
+### Item selection reuses the admin's list views to ensure consistent UIs with filtering.
+
+![](./images/list_view.png)
+
+
+### Inline creation
+
+Items can be created within the selection widget.
+
+![](./images/creation.png)
 
 
 ## Rationale & Credits
