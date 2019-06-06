@@ -1,0 +1,6 @@
+include LICENSE
+include CHANGELOG.md
+include README.md
+recursive-include instance_selector *
+global-exclude *.pyc
+
