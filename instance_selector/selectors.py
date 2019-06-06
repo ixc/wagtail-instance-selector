@@ -48,6 +48,9 @@ class BaseInstanceSelector:
         """
         raise NotImplementedError
 
+    def get_widget_icon(self):
+        return "placeholder"
+
 
 class ModelAdminInstanceSelector(BaseInstanceSelector):
     model_admin = None

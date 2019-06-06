@@ -9,8 +9,12 @@ from instance_selector.selectors import (
     ModelAdminInstanceSelector,
     WagtailUserInstanceSelector,
 )
-from .test_project.test_app.models import TestModelA, TestModelB
-from .test_project.test_app.wagtail_hooks import TestModelBAdmin, TestModelAAdmin
+from .test_project.test_app.models import TestModelA, TestModelB, TestModelC
+from .test_project.test_app.wagtail_hooks import (
+    TestModelAAdmin,
+    TestModelBAdmin,
+    TestModelCAdmin,
+)
 
 User = get_user_model()
 
@@ -19,6 +23,7 @@ class Tests(WebTest):
     def setUp(self):
         TestModelA.objects.all().delete()
         TestModelB.objects.all().delete()
+        TestModelC.objects.all().delete()
         self.superuser = User.objects.create_superuser(
             "superuser", "superuser@example.com", "test"
         )
@@ -218,5 +223,15 @@ class Tests(WebTest):
         res = self.app.get(embed_url, user=self.superuser)
         self.assertIn(
             '<iframe src="test selector url#instance_selector_embed_id:test_app-testmodela-',
+            res.text,
+        )
+
+    def test_blocks_can_render_widget_code(self):
+        c = TestModelC.objects.create()
+        res = self.app.get(
+            "/admin/test_app/testmodelc/edit/%s/" % c.pk, user=self.superuser
+        )
+        self.assertIn(
+            'class="instance-selector-widget instance-selector-widget--unselected instance-selector-widget--required"',
             res.text,
         )
