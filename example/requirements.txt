@@ -1,0 +1,3 @@
+django>=2.2.2,<2.3
+wagtail>=2.5.1,<2.6
+wagtail-instance-selector

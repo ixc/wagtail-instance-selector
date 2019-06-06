@@ -101,7 +101,6 @@ function create_instance_selector_widget(opts) {
     function set_value(data) {
         field_input.val(data.pk);
 
-        console.log(data);
         display_markup_wrap.html(data.display_markup);
         display_edit_link.attr('href', data.edit_url || null);
         edit_button.attr('href', data.edit_url || null);

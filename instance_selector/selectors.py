@@ -6,15 +6,7 @@ from django.utils.safestring import mark_safe
 
 class BaseInstanceSelector:
     def __init__(self):
-        self.display_template = loader.get_template(
-            "instance_selector/instance_selector_widget_display.html"
-        )
-
-    def get_instance_selector_url(self):
-        """
-        The url of a view that instances can be selected from, typically a list view
-        """
-        raise NotImplementedError
+        self.display_template = loader.get_template(self.get_instance_display_template())
 
     def get_instance_display_markup(self, instance):
         """
@@ -24,6 +16,7 @@ class BaseInstanceSelector:
             {
                 "display_title": self.get_instance_display_title(instance),
                 "display_image_url": self.get_instance_display_image_url(instance),
+                "display_image_styles": self.get_instance_display_image_styles(instance),
                 "edit_url": self.get_instance_edit_url(instance),
             }
         )
@@ -42,9 +35,24 @@ class BaseInstanceSelector:
         """
         return None
 
+    def get_instance_display_image_styles(self, instance):
+        return {
+            'max-width': '165px',
+            'max-height': '165px',
+        }
+
+    def get_instance_display_template(self):
+        return "instance_selector/instance_selector_widget_display.html"
+
     def get_instance_edit_url(self, instance):
         """
         The url that the instance can be edited at
+        """
+        raise NotImplementedError
+
+    def get_instance_selector_url(self):
+        """
+        The url of a view that instances can be selected from, typically a list view
         """
         raise NotImplementedError
 

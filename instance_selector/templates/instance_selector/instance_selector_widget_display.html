@@ -10,6 +10,9 @@
                     src="{{ display_image_url }}"
                 {% endif %}
                 class="instance-selector-widget__display__image"
+                {% if display_image_styles %}
+                    style="{% for prop, value in display_image_styles.items %}{{ prop }}: {{ value }}; {% endfor %}"
+                {% endif %}
             >
         </a>
     </div>
