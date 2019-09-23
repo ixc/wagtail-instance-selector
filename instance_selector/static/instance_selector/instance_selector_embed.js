@@ -56,6 +56,16 @@
             );
             actions.append(select_button);
 
+            $(document.body).on('click', '.js-instance-selector-target', function(event) {
+                event.preventDefault();
+                const object_pk = $(this).data('instance-selector-pk');
+                if (!object_pk) {
+                    console.error('Cannot find `instance-selector-pk` value', this);
+                    throw new Error('Cannot find `instance-selector-pk` value.');
+                }
+                handle_object_pk_selected(object_pk);
+            });
+
             // Allow users to select items referenced in creation success messages
             const success_messages = $('.messages .success');
             success_messages.each(function() {
