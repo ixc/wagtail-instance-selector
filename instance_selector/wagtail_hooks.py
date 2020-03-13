@@ -1,5 +1,5 @@
 from django.utils.html import format_html
-from django.conf.urls.static import static
+from django.templatetags.static import static
 from wagtail.core import hooks
 from instance_selector import urls
 
