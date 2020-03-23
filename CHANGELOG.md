@@ -1,6 +1,11 @@
 Changelog
 =========
 
+### 1.2.0 (23/03/2020)
+
+- Django 3 import fix. PR: https://github.com/ixc/wagtail-instance-selector/pull/2.
+
+
 ### 1.1.0 (23/09/2019)
 
 - Added hooks to enable selection on non-standard list views.
