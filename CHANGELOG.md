@@ -1,7 +1,7 @@
 Changelog
 =========
 
-### 1.2.0 (23/03/2020)
+### 1.2.1 (23/03/2020)
 
 - Django 3 import fix. PR: https://github.com/ixc/wagtail-instance-selector/pull/2.
 
