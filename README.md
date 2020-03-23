@@ -2,14 +2,40 @@
 
 A widget for Wagtail's admin that allows you to create and select related items.
 
+- [Features and screenshots](#features-and-screenshots)
 - [Installation](#installation)
 - [Documentation](#documentation)
   - [Using the widget as a field panel](#using-the-widget-as-a-field-panel)
   - [Using the widget in a stream field](#using-the-widget-in-a-stream-field)
   - [Customizing the widget's display and behaviour](#customizing-the-widgets-display-and-behaviour)
-- [Features and screenshots](#features-and-screenshots)
 - [Rationale & Credits](#rationale--credits)
 - [Development notes](#development-notes)
+
+
+## Features and screenshots
+
+### Customizable widget display
+
+By default, widgets appear similar to other Wagtail elements, but they can be customised to include images 
+and other items.
+
+![](./images/fields.png)
+
+
+### Item selection reuses the admin's list views to ensure consistent UIs with filtering.
+
+![](./images/list_view.png)
+
+
+### Inline creation
+
+Items can be created within the selection widget.
+
+![](./images/creation.png)
+
+After creation, items can be selected from the success message or from the list view.
+
+![](./images/post_creation.png)
 
 
 ## Installation
@@ -150,32 +176,6 @@ registry.register_instance_selector(MyModel, MyModelInstanceSelector())
 
 Note that the `ModelAdminInstanceSelector` is designed for the common case. If your needs
 are more specific, you may find some use in `instance_selector.selectors.BaseInstanceSelector`.
-
-
-## Features and screenshots
-
-### Customizable widget display
-
-By default, widgets appear similar to other Wagtail elements, but they can be customised to include images 
-and other items.
-
-![](./images/fields.png)
-
-
-### Item selection reuses the admin's list views to ensure consistent UIs with filtering.
-
-![](./images/list_view.png)
-
-
-### Inline creation
-
-Items can be created within the selection widget.
-
-![](./images/creation.png)
-
-After creation, items can be selected from the success message or from the list view.
-
-![](./images/post_creation.png)
 
 
 ## Rationale & Credits
