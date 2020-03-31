@@ -3,6 +3,7 @@ from django.http import HttpResponseBadRequest, JsonResponse
 from django.core.exceptions import PermissionDenied
 from django.template.response import TemplateResponse
 from django.utils.text import slugify
+from django.views.decorators.clickjacking import xframe_options_sameorigin
 from instance_selector.constants import OBJECT_PK_PARAM
 from instance_selector.registry import registry
 
@@ -15,6 +16,7 @@ def user_can_access_admin(user):
     )
 
 
+@xframe_options_sameorigin
 def instance_selector_embed(request, app_label, model_name):
     if not user_can_access_admin(request.user):
         raise PermissionDenied
