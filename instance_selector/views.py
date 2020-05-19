@@ -6,14 +6,7 @@ from django.utils.text import slugify
 from django.views.decorators.clickjacking import xframe_options_sameorigin
 from instance_selector.constants import OBJECT_PK_PARAM
 from instance_selector.registry import registry
-
-
-def user_can_access_admin(user):
-    if not user:
-        return False
-    return (
-        user.is_superuser or user.is_staff or user.has_perm("wagtailadmin.access_admin")
-    )
+from instance_selector.utils import user_can_access_admin
 
 
 @xframe_options_sameorigin
