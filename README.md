@@ -48,7 +48,7 @@ and add `'instance_selector'` to `INSTALLED_APPS`.
 
 If you're using Django 3+, you will need to change Django's iframe security flag in your settings:
 
-```
+```python
 X_FRAME_OPTIONS = 'SAMEORIGIN'
 ```
 
