@@ -128,3 +128,5 @@ MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 MEDIA_URL = "/media/"
 
 WAGTAIL_SITE_NAME = "Instance Selector Example"
+
+X_FRAME_OPTIONS = 'SAMEORIGIN'
