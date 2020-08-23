@@ -38,7 +38,11 @@
                         '<a class="button button-secondary button-small" title="Select this object" data-instance-selector-pk="' + object_pk + '">Select</a>' +
                     '</li>'
                 );
-                const actions = $(this).find('.actions');
+                let actions = $(this).find('.actions');
+                if (!actions.length) {
+                    actions = $('<ul class="actions"></ul>');
+                    $(this).children('td').first().append(actions);
+                }
                 actions.append(select_action);
             });
 
