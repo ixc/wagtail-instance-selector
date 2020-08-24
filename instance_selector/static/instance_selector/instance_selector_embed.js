@@ -31,38 +31,24 @@
         }
 
         document.addEventListener('DOMContentLoaded', function() {
-            const listing = $('.listing');
-
-            const items = listing.find('tbody tr');
-            items.on('click', 'a', function(event) {
-                event.preventDefault();
-                let href = this.href;
-                if (!href) {
-                    const actions = items.find('.actions').has(this);
-                    href = actions.find('a[href]')[0].href;
+            $('.listing').find('tbody tr[data-object-pk]').each(function() {
+                const object_pk = this.getAttribute('data-object-pk');
+                const select_action = $(
+                    '<li class="instance-selector__select-button">' +
+                        '<a class="button button-secondary button-small" title="Select this object" data-instance-selector-pk="' + object_pk + '">Select</a>' +
+                    '</li>'
+                );
+                let actions = $(this).find('.actions');
+                if (!actions.length) {
+                    actions = $('<ul class="actions"></ul>');
+                    $(this).children('td').first().append(actions);
                 }
-                const data = get_data_from_url(href);
-                if (!data) {
-                    throw new Error('Cannot find object PK from url');
-                }
-                handle_object_pk_selected(data.object_pk);
+                actions.append(select_action);
             });
 
-            const actions = items.find('.actions');
-            const select_button = $(
-                '<li class="instance-selector__select-button">' +
-                    '<a class="button button-secondary button-small" title="Select this object">Select</a>' +
-                '</li>'
-            );
-            actions.append(select_button);
-
-            $(document.body).on('click', '.js-instance-selector-target', function(event) {
+            $(document.body).on('click', '[data-instance-selector-pk]', function(event) {
                 event.preventDefault();
-                const object_pk = $(this).data('instance-selector-pk');
-                if (!object_pk) {
-                    console.error('Cannot find `instance-selector-pk` value', this);
-                    throw new Error('Cannot find `instance-selector-pk` value.');
-                }
+                const object_pk = this.getAttribute('data-instance-selector-pk');
                 handle_object_pk_selected(object_pk);
             });
 
