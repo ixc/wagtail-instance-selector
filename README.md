@@ -109,7 +109,7 @@ from instance_selector.blocks import InstanceSelectorBlock
 class ProductBlock(InstanceSelectorBlock):
     def __init__(self, *args, **kwargs):
         target_model = kwargs.pop("target_model", "my_app.Product")
-        super(ProductBlock, self).__init__(target_model=target_model, **kwargs)
+        super().__init__(target_model=target_model, **kwargs)
     
     class Meta:
         icon = "image"
