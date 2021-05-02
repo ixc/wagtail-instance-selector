@@ -1,6 +1,11 @@
 Changelog
 =========
 
+### 2.0.1 (01/05/2021)
+
+- Fix for custom user model compatibility.
+  PR: https://github.com/ixc/wagtail-instance-selector/pull/13.
+
 ### 2.0.0 (24/08/2020)
 
 - Django 3 compatibility: replaced calls to django.conf.urls.url with django.urls.path or re_path. 
