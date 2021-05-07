@@ -1,6 +1,7 @@
 from django.urls import reverse
 from django_webtest import WebTest
 from django.contrib.auth import get_user_model
+from wagtail import VERSION as WAGTAIL_VERSION
 
 from instance_selector.constants import OBJECT_PK_PARAM
 from instance_selector.registry import registry
@@ -231,7 +232,15 @@ class Tests(WebTest):
         res = self.app.get(
             "/admin/test_app/testmodelc/edit/%s/" % c.pk, user=self.superuser
         )
-        self.assertIn(
-            'class="instance-selector-widget instance-selector-widget--unselected instance-selector-widget--required"',
-            res.text,
-        )
+        if WAGTAIL_VERSION < (2, 13):
+            # widget is directly rendered on the page
+            self.assertIn(
+                'class="instance-selector-widget instance-selector-widget--unselected instance-selector-widget--required"',
+                res.text,
+            )
+        else:
+            # rendered widget output is embedded in JSON within the data-block attribute
+            self.assertIn(
+                "class=\&quot;instance-selector-widget instance-selector-widget--unselected instance-selector-widget--required\&quot;",
+                res.text,
+            )
