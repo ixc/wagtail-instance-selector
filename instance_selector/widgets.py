@@ -1,3 +1,4 @@
+import json
 from django.template.loader import render_to_string
 from django.urls import reverse
 from django.utils.translation import ugettext_lazy as _
@@ -77,14 +78,40 @@ class InstanceSelectorWidget(AdminChooser):
                 "name": name,
                 "is_nonempty": value_data["pk"] is not None,
                 "widget": self,
-                "input_id": attrs["id"],
                 "widget_id": "%s-instance-selector-widget" % attrs["id"],
                 "original_field_html": original_field_html,
-                "embed_url": embed_url,
-                "embed_id": embed_id,
-                "lookup_url": lookup_url,
-                "OBJECT_PK_PARAM": OBJECT_PK_PARAM,
                 "display_markup": value_data["display_markup"],
                 "edit_url": value_data["edit_url"],
             },
+        )
+
+    def render_js_init(self, id_, name, value):
+        app_label = self.target_model._meta.app_label
+        model_name = self.target_model._meta.model_name
+
+        embed_url = reverse(
+            "wagtail_instance_selector_embed",
+            kwargs={"app_label": app_label, "model_name": model_name},
+        )
+        # We use the input name for the embed id so that wagtail's block code will automatically
+        # replace any `__prefix__` substring with a specific id for the widget instance
+        embed_id = name
+        embed_url += "#instance_selector_embed_id:" + embed_id
+
+        lookup_url = reverse(
+            "wagtail_instance_selector_lookup",
+            kwargs={"app_label": app_label, "model_name": model_name},
+        )
+
+        config = {
+            "input_id": id_,
+            "widget_id": "%s-instance-selector-widget" % id_,
+            "field_name": name,
+            "embed_url": embed_url,
+            "embed_id": embed_id,
+            "lookup_url": lookup_url,
+            "OBJECT_PK_PARAM": OBJECT_PK_PARAM,
+        }
+        return "create_instance_selector_widget({config});".format(
+            config=json.dumps(config)
         )
