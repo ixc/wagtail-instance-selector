@@ -7,6 +7,17 @@ from wagtail.admin.widgets import AdminChooser
 from instance_selector.constants import OBJECT_PK_PARAM
 from instance_selector.registry import registry
 
+try:
+    from wagtail.core.telepath import register
+    from wagtail.core.widget_adapters import WidgetAdapter
+except ImportError:  # do-nothing fallback for Wagtail <2.13
+
+    def register(adapter, cls):
+        pass
+
+    class WidgetAdapter:
+        pass
+
 
 class InstanceSelectorWidget(AdminChooser):
     def __init__(self, model, **kwargs):
@@ -85,7 +96,7 @@ class InstanceSelectorWidget(AdminChooser):
             },
         )
 
-    def render_js_init(self, id_, name, value):
+    def get_js_config(self, id_, name):
         app_label = self.target_model._meta.app_label
         model_name = self.target_model._meta.model_name
 
@@ -103,7 +114,7 @@ class InstanceSelectorWidget(AdminChooser):
             kwargs={"app_label": app_label, "model_name": model_name},
         )
 
-        config = {
+        return {
             "input_id": id_,
             "widget_id": "%s-instance-selector-widget" % id_,
             "field_name": name,
@@ -112,6 +123,29 @@ class InstanceSelectorWidget(AdminChooser):
             "lookup_url": lookup_url,
             "OBJECT_PK_PARAM": OBJECT_PK_PARAM,
         }
+
+    def render_js_init(self, id_, name, value):
+        config = self.get_js_config(id_, name)
         return "create_instance_selector_widget({config});".format(
             config=json.dumps(config)
         )
+
+
+class InstanceSelectorAdapter(WidgetAdapter):
+    js_constructor = "wagtailinstanceselector.widgets.InstanceSelector"
+
+    def js_args(self, widget):
+        return [
+            widget.render_html(
+                "__NAME__", widget.get_value_data(None), attrs={"id": "__ID__"}
+            ),
+            widget.get_js_config("__ID__", "__NAME__"),
+        ]
+
+    class Media:
+        js = [
+            "instance_selector/instance_selector_telepath.js",
+        ]
+
+
+register(InstanceSelectorAdapter(), InstanceSelectorWidget)

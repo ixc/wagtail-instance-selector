@@ -39,6 +39,9 @@ class InstanceSelectorBlock(ChooserBlock):
     def widget(self):
         return InstanceSelectorWidget(self.target_model)
 
+    def get_form_state(self, value):
+        return self.widget.get_value_data(value)
+
     def get_instance_selector_icon(self):
         instance_selector = registry.get_instance_selector(self.target_model)
         return instance_selector.get_widget_icon()
