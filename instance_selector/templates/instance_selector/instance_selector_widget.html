@@ -1,6 +1,6 @@
 <div
     id="{{ widget_id }}"
-    class="instance-selector-widget {% if value %}instance-selector-widget--selected{% else %}instance-selector-widget--unselected{% endif %} {% if widget.is_required %}instance-selector-widget--required{% else %}instance-selector-widget--not-required{% endif %}"
+    class="instance-selector-widget {% if is_nonempty %}instance-selector-widget--selected{% else %}instance-selector-widget--unselected{% endif %} {% if widget.is_required %}instance-selector-widget--required{% else %}instance-selector-widget--not-required{% endif %}"
 >
     <div class="instance-selector-widget__display-wrap js-instance-selector-widget-display-wrap">
         {{ display_markup }}
