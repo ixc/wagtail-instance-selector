@@ -115,4 +115,27 @@ function create_instance_selector_widget(opts) {
                 .removeClass('instance-selector-widget--selected');
         }
     }
+
+    // define public API functions for the widget:
+    // https://docs.wagtail.io/en/latest/reference/streamfield/widget_api.html
+    const widget_api = {
+        idForLabel: null,
+        getState: function() {
+            return {
+                'pk': field_input.val(),
+                'display_markup': display_markup_wrap.html(),
+                'edit_url': edit_button.attr('href'),
+            };
+        },
+        getValue: function() {
+            return field_input.val();
+        },
+        setState: function(newState) {
+            set_value(newState);
+        },
+        focus: function() {
+            trigger_button.focus();
+        },
+    }
+    return widget_api;
 }

@@ -5,6 +5,18 @@ from instance_selector.widgets import InstanceSelectorWidget
 from instance_selector.registry import registry
 
 
+try:
+    from wagtail.core.telepath import register
+    from wagtail.core.blocks.field_block import FieldBlockAdapter
+except ImportError:  # do-nothing fallback for Wagtail <2.13
+
+    def register(adapter, cls):
+        pass
+
+    class FieldBlockAdapter:
+        pass
+
+
 class InstanceSelectorBlock(ChooserBlock):
     class Meta:
         icon = "placeholder"
@@ -27,6 +39,9 @@ class InstanceSelectorBlock(ChooserBlock):
     def widget(self):
         return InstanceSelectorWidget(self.target_model)
 
+    def get_form_state(self, value):
+        return self.widget.get_value_data(value)
+
     def get_instance_selector_icon(self):
         instance_selector = registry.get_instance_selector(self.target_model)
         return instance_selector.get_widget_icon()
@@ -39,3 +54,18 @@ class InstanceSelectorBlock(ChooserBlock):
 
         kwargs["target_model"] = self.target_model._meta.label_lower
         return name, args, kwargs
+
+
+class InstanceSelectorBlockAdapter(FieldBlockAdapter):
+    def js_args(self, block):
+        name, widget, meta = super().js_args(block)
+
+        # Fix up the 'icon' item in meta so that it's a string that we can serialize,
+        # rather than a lazy reference
+        if callable(meta["icon"]):
+            meta["icon"] = meta["icon"]()
+
+        return [name, widget, meta]
+
+
+register(InstanceSelectorBlockAdapter(), InstanceSelectorBlock)
