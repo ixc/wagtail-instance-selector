@@ -1,6 +1,11 @@
 Changelog
 =========
 
+### 2.1.0 (17/05/2021)
+
+- Wagtail 2.13 compatiblity.
+  PR: https://github.com/ixc/wagtail-instance-selector/pull/14
+
 ### 2.0.1 (01/05/2021)
 
 - Fix for custom user model compatibility.
