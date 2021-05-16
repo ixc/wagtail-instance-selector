@@ -12,8 +12,6 @@ from instance_selector.exceptions import ModelAdminLookupFailed
 __all__ = ("Registry", "registry")
 
 
-User = get_user_model()
-
 
 class Registry:
     def __init__(self):
@@ -32,6 +30,7 @@ class Registry:
         return self._models[key]
 
     def get_instance_selector(self, model):
+        User = get_user_model()
         if model not in self._selectors:
             from wagtail.admin.menu import admin_menu, settings_menu
 
