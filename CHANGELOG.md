@@ -1,6 +1,11 @@
 Changelog
 =========
 
+### 2.1.1
+
+- Fix version check for WidgetWithScript.get_value_data #17
+  PR: https://github.com/ixc/wagtail-instance-selector/pull/17
+
 ### 2.1.0 (17/05/2021)
 
 - Wagtail 2.13 compatiblity.
