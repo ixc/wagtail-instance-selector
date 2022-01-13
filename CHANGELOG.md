@@ -1,6 +1,11 @@
 Changelog
 =========
 
+### 2.1.2
+
+- Fix Django 3.2+ compatibility re: default_app_config declarations
+  PR: https://github.com/ixc/wagtail-instance-selector/pull/24
+
 ### 2.1.1
 
 - Fix version check for WidgetWithScript.get_value_data #17
