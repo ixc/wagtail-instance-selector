@@ -29,6 +29,10 @@ class InstanceSelectorBlock(ChooserBlock):
             # The models/selectors may not have been registered yet, depending upon
             # import orders and things, so get the icon lazily
             self.meta.icon = lazy(self.get_instance_selector_icon, str)
+            # Fix up the 'icon' item in meta so that it's a string that we can serialize,
+            # rather than a lazy reference
+            if callable(self.meta.icon):
+                self.meta.icon = self.meta.icon() 
 
     @cached_property
     def target_model(self):
@@ -54,17 +58,4 @@ class InstanceSelectorBlock(ChooserBlock):
         kwargs["target_model"] = self.target_model._meta.label_lower
         return name, args, kwargs
 
-
-class InstanceSelectorBlockAdapter(FieldBlockAdapter):
-    def js_args(self, block):
-        name, widget, meta = super().js_args(block)
-
-        # Fix up the 'icon' item in meta so that it's a string that we can serialize,
-        # rather than a lazy reference
-        if callable(meta["icon"]):
-            meta["icon"] = meta["icon"]()
-
-        return [name, widget, meta]
-
-
-register(InstanceSelectorBlockAdapter(), InstanceSelectorBlock)
+register(FieldBlockAdapter(), InstanceSelectorBlock)
