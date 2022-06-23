@@ -8,12 +8,21 @@ if WAGTAIL_VERSION >= (3, 0):
 else:
     from wagtail.admin.edit_handlers import BaseChooserPanel
 
+
 class InstanceSelectorPanel(BaseChooserPanel):
     model = None
     field_name = None
 
     def widget_overrides(self):
+        # For Wagtail<3.0 we use widget_overrides
         return {self.field_name: InstanceSelectorWidget(model=self.target_model)}
+
+    def get_form_options(self):
+        # For Wagtail 3.0 we use get_form_options
+        # So we can mix them to provide supports to Wagtail 2,3
+        opts = super().get_form_options()
+        opts["widgets"] = self.widget_overrides()
+        return opts
 
     @property
     def target_model(self):
