@@ -7,16 +7,12 @@ from wagtail.admin.widgets import AdminChooser
 from instance_selector.constants import OBJECT_PK_PARAM
 from instance_selector.registry import registry
 
-try:
+if WAGTAIL_VERSION >= (3, 0):
+    from wagtail.telepath import register
+    from wagtail.widget_adapters import WidgetAdapter
+else:
     from wagtail.core.telepath import register
     from wagtail.core.widget_adapters import WidgetAdapter
-except ImportError:  # do-nothing fallback for Wagtail <2.13
-
-    def register(adapter, cls):
-        pass
-
-    class WidgetAdapter:
-        pass
 
 
 class InstanceSelectorWidget(AdminChooser):

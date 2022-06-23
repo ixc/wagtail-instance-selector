@@ -1,8 +1,14 @@
 from django.db import models
-from wagtail.admin.edit_handlers import StreamFieldPanel
-from wagtail.core.fields import StreamField
-from instance_selector.edit_handlers import InstanceSelectorPanel
 from instance_selector.blocks import InstanceSelectorBlock
+from instance_selector.edit_handlers import InstanceSelectorPanel
+from wagtail import VERSION as WAGTAIL_VERSION
+
+if WAGTAIL_VERSION >= (3, 0):
+    from wagtail.admin.panels import FieldPanel as StreamFieldPanel
+    from wagtail.fields import StreamField
+else:
+    from wagtail.admin.edit_handlers import StreamFieldPanel
+    from wagtail.core.fields import StreamField
 
 
 class TestModelA(models.Model):
@@ -18,8 +24,15 @@ class TestModelB(models.Model):
 
 
 class TestModelC(models.Model):
-    body = StreamField(
-        [("test", InstanceSelectorBlock(target_model="test_app.TestModelA"))]
+    body = (
+        StreamField(
+            [("test", InstanceSelectorBlock(target_model="test_app.TestModelA"))],
+            use_json_field=True,
+        )
+        if WAGTAIL_VERSION >= (3, 0)
+        else StreamField(
+            [("test", InstanceSelectorBlock(target_model="test_app.TestModelA"))]
+        )
     )
 
     panels = [StreamFieldPanel("body")]
