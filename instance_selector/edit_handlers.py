@@ -1,8 +1,12 @@
 from django.template.loader import render_to_string
 from django.utils.safestring import mark_safe
-from wagtail.admin.edit_handlers import BaseChooserPanel
+from wagtail import VERSION as WAGTAIL_VERSION
 from instance_selector.widgets import InstanceSelectorWidget
 
+if WAGTAIL_VERSION >= (3, 0):
+    from wagtail.admin.panels import BaseChooserPanel
+else:
+    from wagtail.admin.edit_handlers import BaseChooserPanel
 
 class InstanceSelectorPanel(BaseChooserPanel):
     model = None

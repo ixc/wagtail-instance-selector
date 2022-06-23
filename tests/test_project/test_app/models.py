@@ -1,8 +1,14 @@
 from django.db import models
-from wagtail.admin.edit_handlers import StreamFieldPanel
-from wagtail.core.fields import StreamField
 from instance_selector.edit_handlers import InstanceSelectorPanel
 from instance_selector.blocks import InstanceSelectorBlock
+from wagtail import VERSION as WAGTAIL_VERSION
+
+if WAGTAIL_VERSION >= (3, 0):
+    from wagtail.admin.panels import StreamFieldPanel
+    from wagtail.fields import StreamField
+else:
+    from wagtail.admin.edit_handlers import StreamFieldPanel
+    from wagtail.core.fields import StreamField
 
 
 class TestModelA(models.Model):

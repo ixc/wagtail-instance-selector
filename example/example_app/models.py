@@ -1,7 +1,11 @@
+from wagtail import VERSION as WAGTAIL_VERSION
 from django.db import models
-from wagtail.admin.edit_handlers import FieldPanel
-from instance_selector.edit_handlers import InstanceSelectorPanel
 
+from instance_selector.edit_handlers import InstanceSelectorPanel
+if WAGTAIL_VERSION >= (3, 0):
+    from wagtail.admin.panels import FieldPanel
+else:
+    from wagtail.admin.edit_handlers import FieldPanel
 
 class Shop(models.Model):
     title = models.CharField(max_length=1000)
