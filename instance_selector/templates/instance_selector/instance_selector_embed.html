@@ -13,7 +13,7 @@
     </style>
 </head>
 <body style>
-    <iframe src="{{ embed_url|safe }}" frameborder="0"></iframe>
+    <iframe onload="removeSidebar(this);" src="{{ embed_url|safe }}" frameborder="0"></iframe>
     <script>
         (() => {
             // If the embed is loaded directly, we just log to the console. This is intended
@@ -41,5 +41,10 @@
             });
         })();
     </script>
+<script type="text/javascript">
+function removeSidebar(modelAdmin) {
+    modelAdmin.contentWindow.document.getElementById("wagtail-sidebar").style.display = 'none';
+}
+</script>
 </body>
 </html>
