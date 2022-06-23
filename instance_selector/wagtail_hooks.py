@@ -8,6 +8,7 @@ if WAGTAIL_VERSION >= (3, 0):
 else:
     from wagtail.core import hooks
 
+
 @hooks.register("register_admin_urls")
 def register_instance_selector_urls():
     return urls.urlpatterns

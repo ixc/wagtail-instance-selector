@@ -16,7 +16,6 @@ else:
     from wagtail.core.blocks.field_block import FieldBlockAdapter
 
 
-
 class InstanceSelectorBlock(ChooserBlock):
     class Meta:
         icon = "placeholder"
