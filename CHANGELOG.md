@@ -1,6 +1,11 @@
 Changelog
 =========
 
+### Unrelease
+
+- Add support for Wagtail 3.0 and drop support for all Wagtail versions before 2.15.
+  PR: https://github.com/ixc/wagtail-instance-selector/pull/28
+  
 ### 2.1.2
 
 - Fix Django 3.2+ compatibility re: default_app_config declarations
