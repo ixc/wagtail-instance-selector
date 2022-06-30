@@ -1,8 +1,11 @@
 import sys
 from django.conf import settings
+from wagtail import VERSION as WAGTAIL_VERSION
+from django.core.management.utils import get_random_secret_key
 
 settings.configure(
     **{
+        "SECRET_KEY": get_random_secret_key(),
         "DATABASES": {
             "default": {"ENGINE": "django.db.backends.sqlite3", "NAME": "test.db"}
         },
@@ -15,7 +18,7 @@ settings.configure(
             "django.contrib.sessions",
             "django.contrib.messages",
             "wagtail.admin",
-            "wagtail.core",
+            "wagtail" if WAGTAIL_VERSION >= (3, 0) else "wagtail.core",
             "wagtail.contrib.modeladmin",
             "wagtail.contrib.settings",
             "wagtail.users",

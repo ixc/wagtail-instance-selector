@@ -1,20 +1,19 @@
 from django.utils.functional import cached_property, lazy
-from wagtail.core.blocks import ChooserBlock
-from wagtail.core.utils import resolve_model_string
+from wagtail import VERSION as WAGTAIL_VERSION
 from instance_selector.widgets import InstanceSelectorWidget
 from instance_selector.registry import registry
 
 
-try:
+if WAGTAIL_VERSION >= (3, 0):
+    from wagtail.blocks import ChooserBlock
+    from wagtail.coreutils import resolve_model_string
+    from wagtail.telepath import register
+    from wagtail.blocks.field_block import FieldBlockAdapter
+else:
+    from wagtail.core.blocks import ChooserBlock
+    from wagtail.core.utils import resolve_model_string
     from wagtail.core.telepath import register
     from wagtail.core.blocks.field_block import FieldBlockAdapter
-except ImportError:  # do-nothing fallback for Wagtail <2.13
-
-    def register(adapter, cls):
-        pass
-
-    class FieldBlockAdapter:
-        pass
 
 
 class InstanceSelectorBlock(ChooserBlock):
@@ -30,6 +29,10 @@ class InstanceSelectorBlock(ChooserBlock):
             # The models/selectors may not have been registered yet, depending upon
             # import orders and things, so get the icon lazily
             self.meta.icon = lazy(self.get_instance_selector_icon, str)
+            # Fix up the 'icon' item in meta so that it's a string that we can serialize,
+            # rather than a lazy reference
+            if callable(self.meta.icon):
+                self.meta.icon = self.meta.icon()
 
     @cached_property
     def target_model(self):
@@ -56,16 +59,4 @@ class InstanceSelectorBlock(ChooserBlock):
         return name, args, kwargs
 
 
-class InstanceSelectorBlockAdapter(FieldBlockAdapter):
-    def js_args(self, block):
-        name, widget, meta = super().js_args(block)
-
-        # Fix up the 'icon' item in meta so that it's a string that we can serialize,
-        # rather than a lazy reference
-        if callable(meta["icon"]):
-            meta["icon"] = meta["icon"]()
-
-        return [name, widget, meta]
-
-
-register(InstanceSelectorBlockAdapter(), InstanceSelectorBlock)
+register(FieldBlockAdapter(), InstanceSelectorBlock)

@@ -1,7 +1,12 @@
 from django.template.loader import render_to_string
 from django.utils.safestring import mark_safe
-from wagtail.admin.edit_handlers import BaseChooserPanel
+from wagtail import VERSION as WAGTAIL_VERSION
 from instance_selector.widgets import InstanceSelectorWidget
+
+if WAGTAIL_VERSION >= (3, 0):
+    from wagtail.admin.panels import BaseChooserPanel
+else:
+    from wagtail.admin.edit_handlers import BaseChooserPanel
 
 
 class InstanceSelectorPanel(BaseChooserPanel):
@@ -9,7 +14,15 @@ class InstanceSelectorPanel(BaseChooserPanel):
     field_name = None
 
     def widget_overrides(self):
+        # For Wagtail<3.0 we use widget_overrides
         return {self.field_name: InstanceSelectorWidget(model=self.target_model)}
+
+    def get_form_options(self):
+        # For Wagtail 3.0 we use get_form_options
+        # So we can mix them to provide supports to Wagtail 2,3
+        opts = super().get_form_options()
+        opts["widgets"] = self.widget_overrides()
+        return opts
 
     @property
     def target_model(self):
