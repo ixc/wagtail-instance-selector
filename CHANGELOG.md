@@ -1,6 +1,5 @@
 Changelog
 =========
-
 ### 2.1.2
 
 - Fix Django 3.2+ compatibility re: default_app_config declarations

@@ -12,7 +12,6 @@ from instance_selector.exceptions import ModelAdminLookupFailed
 __all__ = ("Registry", "registry")
 
 
-
 class Registry:
     def __init__(self):
         self._models = {
