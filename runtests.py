@@ -55,6 +55,7 @@ settings.configure(
         "STATIC_URL": "/static/",
         "ROOT_URLCONF": "tests.test_project.urls",
         "WAGTAIL_SITE_NAME": "test",
+        "SECRET_KEY": "fake-key",
     }
 )
 

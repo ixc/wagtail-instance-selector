@@ -204,7 +204,7 @@ class Tests(WebTest):
         )
         res = self.app.get(embed_url, user=self.superuser)
         self.assertIn(
-            '<iframe src="%s#instance_selector_embed_id:test_app-testmodela-'
+            '<iframe onload="removeSidebar(this);" src="%s#instance_selector_embed_id:test_app-testmodela-'
             % selector.get_instance_selector_url(),
             res.text,
         )
@@ -223,7 +223,7 @@ class Tests(WebTest):
         )
         res = self.app.get(embed_url, user=self.superuser)
         self.assertIn(
-            '<iframe src="test selector url#instance_selector_embed_id:test_app-testmodela-',
+            '<iframe onload="removeSidebar(this);" src="test selector url#instance_selector_embed_id:test_app-testmodela-',
             res.text,
         )
 
