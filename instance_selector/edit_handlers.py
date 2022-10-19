@@ -3,13 +3,20 @@ from django.utils.safestring import mark_safe
 from wagtail import VERSION as WAGTAIL_VERSION
 from instance_selector.widgets import InstanceSelectorWidget
 
+
 if WAGTAIL_VERSION >= (3, 0):
-    from wagtail.admin.panels import BaseChooserPanel
+    if WAGTAIL_VERSION >= (4, 0):
+        from wagtail.admin.panels import FieldPanel
+        base_chooser_panel = FieldPanel
+    else:
+        from wagtail.admin.panels import BaseChooserPanel
+        base_chooser_panel = BaseChooserPanel
 else:
     from wagtail.admin.edit_handlers import BaseChooserPanel
+    base_chooser_panel = BaseChooserPanel
 
 
-class InstanceSelectorPanel(BaseChooserPanel):
+class InstanceSelectorPanel(base_chooser_panel):
     model = None
     field_name = None
 

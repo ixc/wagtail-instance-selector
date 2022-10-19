@@ -3,7 +3,7 @@ from django.template.loader import render_to_string
 from django.urls import reverse
 from django.utils.translation import ugettext_lazy as _
 from wagtail import VERSION as WAGTAIL_VERSION
-from wagtail.admin.widgets import AdminChooser
+from wagtail.admin.widgets.chooser import AdminPageChooser
 from instance_selector.constants import OBJECT_PK_PARAM
 from instance_selector.registry import registry
 
@@ -15,7 +15,7 @@ else:
     from wagtail.core.widget_adapters import WidgetAdapter
 
 
-class InstanceSelectorWidget(AdminChooser):
+class InstanceSelectorWidget(AdminPageChooser):
     def __init__(self, model, **kwargs):
         self.target_model = model
 
@@ -23,6 +23,12 @@ class InstanceSelectorWidget(AdminChooser):
         self.choose_one_text = _("Choose %s") % model_name
         self.choose_another_text = _("Choose another %s") % model_name
         self.link_to_chosen_text = _("Edit this %s") % model_name
+
+        # choose_one_text = _("Choose a page")
+        # display_title_key = "display_title"
+        # chooser_modal_url_name = "wagtailadmin_choose_page"
+        # icon = "doc-empty-inverse"
+        # classname = "page-chooser"
 
         super().__init__(**kwargs)
 
@@ -53,12 +59,12 @@ class InstanceSelectorWidget(AdminChooser):
         }
 
     def render_html(self, name, value, attrs):
-        if WAGTAIL_VERSION >= (2, 12):
+        # if WAGTAIL_VERSION >= (2, 12):
             # From Wagtail 2.12, get_value_data is called as a preprocessing step in
             # WidgetWithScript before invoking render_html
-            value_data = value
-        else:
-            value_data = self.get_value_data(value)
+        value_data = value
+        # else:
+        #     value_data = self.get_value_data(value)
 
         original_field_html = super().render_html(name, value_data["pk"], attrs)
 
