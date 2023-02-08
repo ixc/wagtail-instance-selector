@@ -11,7 +11,6 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
 import os
-from wagtail import VERSION as WAGTAIL_VERSION
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -39,7 +38,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "wagtail.admin",
-    "wagtail" if WAGTAIL_VERSION >= (3, 0) else "wagtail.core",
+    "wagtail",
     "wagtail.contrib.modeladmin",
     "wagtail.contrib.settings",
     "wagtail.users",

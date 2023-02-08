@@ -1,19 +1,13 @@
 from django.utils.functional import cached_property, lazy
-from wagtail import VERSION as WAGTAIL_VERSION
+
 from instance_selector.widgets import InstanceSelectorWidget
 from instance_selector.registry import registry
 
+from wagtail.blocks import ChooserBlock
+from wagtail.coreutils import resolve_model_string
+from wagtail.telepath import register
+from wagtail.blocks.field_block import FieldBlockAdapter
 
-if WAGTAIL_VERSION >= (3, 0):
-    from wagtail.blocks import ChooserBlock
-    from wagtail.coreutils import resolve_model_string
-    from wagtail.telepath import register
-    from wagtail.blocks.field_block import FieldBlockAdapter
-else:
-    from wagtail.core.blocks import ChooserBlock
-    from wagtail.core.utils import resolve_model_string
-    from wagtail.core.telepath import register
-    from wagtail.core.blocks.field_block import FieldBlockAdapter
 
 
 class InstanceSelectorBlock(ChooserBlock):

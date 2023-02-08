@@ -1,28 +1,12 @@
 from django.template.loader import render_to_string
 from django.utils.safestring import mark_safe
-from wagtail import VERSION as WAGTAIL_VERSION
-from instance_selector.widgets import InstanceSelectorWidget
+
+from wagtail.admin.panels import FieldPanel
 
 
-if WAGTAIL_VERSION >= (3, 0):
-    if WAGTAIL_VERSION >= (4, 0):
-        from wagtail.admin.panels import FieldPanel
-        base_chooser_panel = FieldPanel
-    else:
-        from wagtail.admin.panels import BaseChooserPanel
-        base_chooser_panel = BaseChooserPanel
-else:
-    from wagtail.admin.edit_handlers import BaseChooserPanel
-    base_chooser_panel = BaseChooserPanel
-
-
-class InstanceSelectorPanel(base_chooser_panel):
+class InstanceSelectorPanel(FieldPanel):
     model = None
     field_name = None
-
-    def widget_overrides(self):
-        # For Wagtail<3.0 we use widget_overrides
-        return {self.field_name: InstanceSelectorWidget(model=self.target_model)}
 
     def get_form_options(self):
         # For Wagtail 3.0 we use get_form_options

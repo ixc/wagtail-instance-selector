@@ -1,6 +1,5 @@
 import sys
 from django.conf import settings
-from wagtail import VERSION as WAGTAIL_VERSION
 
 settings.configure(
     **{
@@ -16,7 +15,7 @@ settings.configure(
             "django.contrib.sessions",
             "django.contrib.messages",
             "wagtail.admin",
-            "wagtail" if WAGTAIL_VERSION >= (3, 0) else "wagtail.core",
+            "wagtail",
             "wagtail.contrib.modeladmin",
             "wagtail.contrib.settings",
             "wagtail.users",

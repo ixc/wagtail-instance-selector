@@ -1,12 +1,9 @@
 from django.utils.html import format_html
 from django.templatetags.static import static
-from wagtail import VERSION as WAGTAIL_VERSION
+
 from instance_selector import urls
 
-if WAGTAIL_VERSION >= (3, 0):
-    from wagtail import hooks
-else:
-    from wagtail.core import hooks
+from wagtail import hooks
 
 
 @hooks.register("register_admin_urls")

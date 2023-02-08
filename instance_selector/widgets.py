@@ -1,18 +1,13 @@
 import json
 from django.template.loader import render_to_string
 from django.urls import reverse
-from django.utils.translation import ugettext_lazy as _
-from wagtail import VERSION as WAGTAIL_VERSION
+from django.utils.translation import gettext_lazy as _
 from wagtail.admin.widgets.chooser import AdminPageChooser
 from instance_selector.constants import OBJECT_PK_PARAM
 from instance_selector.registry import registry
 
-if WAGTAIL_VERSION >= (3, 0):
-    from wagtail.telepath import register
-    from wagtail.widget_adapters import WidgetAdapter
-else:
-    from wagtail.core.telepath import register
-    from wagtail.core.widget_adapters import WidgetAdapter
+from wagtail.telepath import register
+from wagtail.widget_adapters import WidgetAdapter
 
 
 class InstanceSelectorWidget(AdminPageChooser):
@@ -59,13 +54,8 @@ class InstanceSelectorWidget(AdminPageChooser):
         }
 
     def render_html(self, name, value, attrs):
-        # if WAGTAIL_VERSION >= (2, 12):
-            # From Wagtail 2.12, get_value_data is called as a preprocessing step in
-            # WidgetWithScript before invoking render_html
         value_data = value
-        # else:
-        #     value_data = self.get_value_data(value)
-
+        
         original_field_html = super().render_html(name, value_data["pk"], attrs)
 
         app_label = self.target_model._meta.app_label

@@ -1,12 +1,8 @@
-from wagtail import VERSION as WAGTAIL_VERSION
 from django.db import models
 
 from instance_selector.edit_handlers import InstanceSelectorPanel
 
-if WAGTAIL_VERSION >= (3, 0):
-    from wagtail.admin.panels import FieldPanel
-else:
-    from wagtail.admin.edit_handlers import FieldPanel
+from wagtail.admin.panels import FieldPanel
 
 
 class Shop(models.Model):

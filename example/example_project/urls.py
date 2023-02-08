@@ -2,13 +2,8 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
+from wagtail import urls as wagtail_urls
 from wagtail.admin import urls as wagtail_admin_urls
-from wagtail import VERSION as WAGTAIL_VERSION
-
-if WAGTAIL_VERSION >= (3, 0):
-    from wagtail import urls as wagtail_urls
-else:
-    from wagtail.core import urls as wagtail_urls
 
 
 urlpatterns = [
