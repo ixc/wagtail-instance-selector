@@ -2,7 +2,7 @@ from django.db import models
 from instance_selector.blocks import InstanceSelectorBlock
 from instance_selector.edit_handlers import InstanceSelectorPanel
 
-from wagtail.admin.panels import FieldPanel as StreamFieldPanel
+from wagtail.admin.panels import FieldPanel
 from wagtail.fields import StreamField
 
 
@@ -26,4 +26,4 @@ class TestModelC(models.Model):
         )
     )
 
-    panels = [StreamFieldPanel("body")]
+    panels = [FieldPanel("body")]
