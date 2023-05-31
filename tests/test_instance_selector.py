@@ -1,7 +1,6 @@
 from django.urls import reverse
 from django_webtest import WebTest
 from django.contrib.auth import get_user_model
-from wagtail import VERSION as WAGTAIL_VERSION
 
 from instance_selector.constants import OBJECT_PK_PARAM
 from instance_selector.registry import registry
@@ -14,7 +13,6 @@ from .test_project.test_app.models import TestModelA, TestModelB, TestModelC
 from .test_project.test_app.wagtail_hooks import (
     TestModelAAdmin,
     TestModelBAdmin,
-    TestModelCAdmin,
 )
 
 User = get_user_model()
@@ -115,48 +113,76 @@ class Tests(WebTest):
         #     res.text,
         # )
 
-    # def test_widget_can_render_custom_display_data(self):
-    #     class TestInstanceSelector(BaseInstanceSelector):
-    #         def get_instance_display_title(self, instance):
-    #             return "test display title"
+    def test_widget_can_render_custom_display_data(self):
+        class TestInstanceSelector(BaseInstanceSelector):
+            def get_instance_display_title(self, instance):
+                return "test display title"
 
-    #         def get_instance_display_image_url(self, instance):
-    #             return "test display image url"
+            def get_instance_display_image_url(self, instance):
+                return "test display image url"
 
-    #         def get_instance_edit_url(self, instance):
-    #             return "test edit url"
+            def get_instance_edit_url(self, instance):
+                return "test edit url"
 
-    #     registry.register_instance_selector(TestModelA, TestInstanceSelector())
+        registry.register_instance_selector(TestModelA, TestInstanceSelector())
 
-    #     a = TestModelA.objects.create()
-    #     b = TestModelB.objects.create(test_model_a=a)
+        a = TestModelA.objects.create()
+        b = TestModelB.objects.create(test_model_a=a)
 
-    #     res = self.app.get(
-    #         "/admin/test_app/testmodelb/edit/%s/" % b.pk, user=self.superuser
-    #     )
-    #     self.assertIn(
-    #         '<span class="instance-selector-widget__display__title">test display title</span>',
-    #         res.text,
-    #     )
-    #     self.assertIn('src="test display image url"', res.text)
-    #     self.assertIn('href="test edit url"', res.text)
+        res = self.app.get(
+            "/admin/test_app/testmodelb/edit/%s/" % b.pk, user=self.superuser
+        )
+        self.assertIn(
+            '/static/instance_selector/instance_selector.css',
+            res.text,
+        )
+        self.assertIn(
+            '/static/instance_selector/instance_selector_embed.js',
+            res.text,
+        )
+        self.assertIn(
+            '/static/instance_selector/instance_selector_widget.js',
+            res.text,
+        )
+        # leaving these commented out for now, as the widget is now rendered by javascript
+        # and they may be useful to decide how relevant they are now.
+        # self.assertIn(
+        #     '<span class="instance-selector-widget__display__title">test display title</span>',
+        #     res.text,
+        # )
+        # self.assertIn('src="test display image url"', res.text)
+        # self.assertIn('href="test edit url"', res.text)
 
-    # def test_widget_can_render_custom_display_markup(self):
-    #     class TestInstanceSelector(ModelAdminInstanceSelector):
-    #         def get_instance_display_markup(self, instance):
-    #             return "test display markup"
+    def test_widget_can_render_custom_display_markup(self):
+        class TestInstanceSelector(ModelAdminInstanceSelector):
+            def get_instance_display_markup(self, instance):
+                return "test display markup"
 
-    #     registry.register_instance_selector(
-    #         TestModelA, TestInstanceSelector(model_admin=TestModelAAdmin())
-    #     )
+        registry.register_instance_selector(
+            TestModelA, TestInstanceSelector(model_admin=TestModelAAdmin())
+        )
 
-    #     a = TestModelA.objects.create()
-    #     b = TestModelB.objects.create(test_model_a=a)
+        a = TestModelA.objects.create()
+        b = TestModelB.objects.create(test_model_a=a)
 
-    #     res = self.app.get(
-    #         "/admin/test_app/testmodelb/edit/%s/" % b.pk, user=self.superuser
-    #     )
-    #     self.assertIn("test display markup", res.text)
+        res = self.app.get(
+            "/admin/test_app/testmodelb/edit/%s/" % b.pk, user=self.superuser
+        )
+        self.assertIn(
+            '/static/instance_selector/instance_selector.css',
+            res.text,
+        )
+        self.assertIn(
+            '/static/instance_selector/instance_selector_embed.js',
+            res.text,
+        )
+        self.assertIn(
+            '/static/instance_selector/instance_selector_widget.js',
+            res.text,
+        )
+        # leaving this commented out for now, as the widget is now rendered by javascript
+        # and they may be useful to decide how relevant they are now.
+        # self.assertIn("test display markup", res.text)
 
     def test_widget_can_lookup_updated_display_information(self):
         selector = registry.get_instance_selector(TestModelA)
