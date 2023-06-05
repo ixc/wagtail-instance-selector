@@ -1,16 +1,22 @@
 import json
+from django.forms import widgets
 from django.template.loader import render_to_string
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
-from wagtail.admin.widgets.chooser import AdminPageChooser
 from instance_selector.constants import OBJECT_PK_PARAM
 from instance_selector.registry import registry
 
 from wagtail.telepath import register
+from wagtail.utils.widgets import WidgetWithScript
 from wagtail.widget_adapters import WidgetAdapter
 
 
-class InstanceSelectorWidget(AdminPageChooser):
+class InstanceSelectorWidget(WidgetWithScript, widgets.Input):
+    # when looping over form fields, this one should appear in visible_fields, not hidden_fields
+    # despite the underlying input being type="hidden"
+    input_type = "hidden"
+    is_hidden = False
+
     def __init__(self, model, **kwargs):
         self.target_model = model
 
@@ -18,12 +24,9 @@ class InstanceSelectorWidget(AdminPageChooser):
         self.choose_one_text = _("Choose %s") % model_name
         self.choose_another_text = _("Choose another %s") % model_name
         self.link_to_chosen_text = _("Edit this %s") % model_name
-
-        # choose_one_text = _("Choose a page")
-        # display_title_key = "display_title"
-        # chooser_modal_url_name = "wagtailadmin_choose_page"
-        # icon = "doc-empty-inverse"
-        # classname = "page-chooser"
+        self.clear_choice_text = _("Clear choice")
+        self.show_edit_link = True
+        self.show_clear_link = True
 
         super().__init__(**kwargs)
 

@@ -96,22 +96,15 @@ class Tests(WebTest):
             "/admin/test_app/testmodelb/edit/%s/" % b.pk, user=self.superuser
         )
         self.assertIn(
-            '<option value="1" selected>%s</option>'
-            # '<select name="test_model_a" value="%s" id="id_test_model_a">'
-            % a,
+            '<input type="hidden" name="test_model_a" value="%s" id="id_test_model_a">'
+            % a.pk,
             res.text,
         )
         self.assertIn(
-            '<select name="test_model_a" id="id_test_model_a">',
+            '<span class="instance-selector-widget__display__title">TestModelA object (%s)</span>'
+            % a.pk,
             res.text,
         )
-        # leaving these commented out for now, as the widget is now rendered by javascript
-        # and they may be useful to decide how relevant they are now.
-        # self.assertIn(
-        #     '<span class="instance-selector-widget__display__title">TestModelA object (%s)</span>'
-        #     % a.pk,
-        #     res.text,
-        # )
 
     def test_widget_can_render_custom_display_data(self):
         class TestInstanceSelector(BaseInstanceSelector):
