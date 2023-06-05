@@ -1,5 +1,4 @@
 from setuptools import setup
-import instance_selector
 
 setup(
     name="wagtail-instance-selector",
