@@ -12,11 +12,7 @@ setup(
     author_email="admins@interaction.net.au",
     url="https://github.com/ixc/wagtail-instance-selector",
     install_requires=[
-        'django',
-        'wagtail',
-    ],
-    setup_requires=[
-        'django',
+        'Django',
         'wagtail',
     ],
 )
