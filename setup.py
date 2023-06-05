@@ -15,4 +15,8 @@ setup(
         'django',
         'wagtail',
     ],
+    setup_requires=[
+        'django',
+        'wagtail',
+    ],
 )
