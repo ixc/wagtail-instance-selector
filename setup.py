@@ -2,7 +2,7 @@ from setuptools import setup
 
 setup(
     name="wagtail-instance-selector",
-    version=2.1.2,
+    version='2.1.2',
     packages=["instance_selector"],
     include_package_data=True,
     description="A widget for Wagtail's admin that allows you to create and select related items",
