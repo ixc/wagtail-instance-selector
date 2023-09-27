@@ -44,6 +44,7 @@
 
 .instance-selector-widget-modal .button.close {
     right: 25px;
+    color: var(--w-color-primary);
 }
 
 .instance-selector-widget__loading-indicator {

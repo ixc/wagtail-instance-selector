@@ -2,8 +2,9 @@ from django.conf import settings
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
+from wagtail import urls as wagtail_urls
 from wagtail.admin import urls as wagtail_admin_urls
-from wagtail.core import urls as wagtail_urls
+
 
 urlpatterns = [
     path("admin/", include(wagtail_admin_urls)),

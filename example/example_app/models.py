@@ -1,6 +1,8 @@
 from django.db import models
-from wagtail.admin.edit_handlers import FieldPanel
+
 from instance_selector.edit_handlers import InstanceSelectorPanel
+
+from wagtail.admin.panels import FieldPanel
 
 
 class Shop(models.Model):

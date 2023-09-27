@@ -15,7 +15,7 @@ settings.configure(
             "django.contrib.sessions",
             "django.contrib.messages",
             "wagtail.admin",
-            "wagtail.core",
+            "wagtail",
             "wagtail.contrib.modeladmin",
             "wagtail.contrib.settings",
             "wagtail.users",
@@ -54,6 +54,8 @@ settings.configure(
         "STATIC_URL": "/static/",
         "ROOT_URLCONF": "tests.test_project.urls",
         "WAGTAIL_SITE_NAME": "test",
+        "SECRET_KEY": "fake-key",
+        "WAGTAILADMIN_BASE_URL": "http://localhost:8000",
     }
 )
 

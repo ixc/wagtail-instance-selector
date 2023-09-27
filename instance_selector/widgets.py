@@ -1,25 +1,22 @@
 import json
+from django.forms import widgets
 from django.template.loader import render_to_string
 from django.urls import reverse
-from django.utils.translation import ugettext_lazy as _
-from wagtail import VERSION as WAGTAIL_VERSION
-from wagtail.admin.widgets import AdminChooser
+from django.utils.translation import gettext_lazy as _
 from instance_selector.constants import OBJECT_PK_PARAM
 from instance_selector.registry import registry
 
-try:
-    from wagtail.core.telepath import register
-    from wagtail.core.widget_adapters import WidgetAdapter
-except ImportError:  # do-nothing fallback for Wagtail <2.13
-
-    def register(adapter, cls):
-        pass
-
-    class WidgetAdapter:
-        pass
+from wagtail.telepath import register
+from wagtail.utils.widgets import WidgetWithScript
+from wagtail.widget_adapters import WidgetAdapter
 
 
-class InstanceSelectorWidget(AdminChooser):
+class InstanceSelectorWidget(WidgetWithScript, widgets.Input):
+    # when looping over form fields, this one should appear in visible_fields, not hidden_fields
+    # despite the underlying input being type="hidden"
+    input_type = "hidden"
+    is_hidden = False
+
     def __init__(self, model, **kwargs):
         self.target_model = model
 
@@ -27,6 +24,9 @@ class InstanceSelectorWidget(AdminChooser):
         self.choose_one_text = _("Choose %s") % model_name
         self.choose_another_text = _("Choose another %s") % model_name
         self.link_to_chosen_text = _("Edit this %s") % model_name
+        self.clear_choice_text = _("Clear choice")
+        self.show_edit_link = True
+        self.show_clear_link = True
 
         super().__init__(**kwargs)
 
@@ -57,13 +57,8 @@ class InstanceSelectorWidget(AdminChooser):
         }
 
     def render_html(self, name, value, attrs):
-        if WAGTAIL_VERSION >= (2, 12):
-            # From Wagtail 2.12, get_value_data is called as a preprocessing step in
-            # WidgetWithScript before invoking render_html
-            value_data = value
-        else:
-            value_data = self.get_value_data(value)
-
+        value_data = value
+        
         original_field_html = super().render_html(name, value_data["pk"], attrs)
 
         app_label = self.target_model._meta.app_label

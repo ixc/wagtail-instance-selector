@@ -78,8 +78,8 @@ class Product(models.Model):
 
 ```python
 from django.db import models
-from wagtail.admin.edit_handlers import StreamFieldPanel
-from wagtail.core.fields import StreamField
+from wagtail.admin.panels import FieldPanel
+from wagtail.fields import StreamField
 from instance_selector.blocks import InstanceSelectorBlock
 
 
@@ -95,9 +95,9 @@ class Shop(models.Model):
     content = StreamField([
         ("products", InstanceSelectorBlock(target_model="test_app.Product")),
         ("services", InstanceSelectorBlock(target_model="test_app.Service")),
-    ])
+    ], use_json_field=True)
 
-    panels = [StreamFieldPanel("content")]
+    panels = [FieldPanel("content")]
 ```
 
 To create reusable blocks, you can subclass `InstanceSelectorBlock`.  

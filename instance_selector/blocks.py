@@ -1,20 +1,13 @@
 from django.utils.functional import cached_property, lazy
-from wagtail.core.blocks import ChooserBlock
-from wagtail.core.utils import resolve_model_string
+
 from instance_selector.widgets import InstanceSelectorWidget
 from instance_selector.registry import registry
 
+from wagtail.blocks import ChooserBlock
+from wagtail.coreutils import resolve_model_string
+from wagtail.telepath import register
+from wagtail.blocks.field_block import FieldBlockAdapter
 
-try:
-    from wagtail.core.telepath import register
-    from wagtail.core.blocks.field_block import FieldBlockAdapter
-except ImportError:  # do-nothing fallback for Wagtail <2.13
-
-    def register(adapter, cls):
-        pass
-
-    class FieldBlockAdapter:
-        pass
 
 
 class InstanceSelectorBlock(ChooserBlock):

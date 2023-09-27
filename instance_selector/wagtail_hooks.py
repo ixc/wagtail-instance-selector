@@ -1,7 +1,9 @@
 from django.utils.html import format_html
 from django.templatetags.static import static
-from wagtail.core import hooks
+
 from instance_selector import urls
+
+from wagtail import hooks
 
 
 @hooks.register("register_admin_urls")

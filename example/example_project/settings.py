@@ -38,7 +38,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "wagtail.admin",
-    "wagtail.core",
+    "wagtail",
     "wagtail.contrib.modeladmin",
     "wagtail.contrib.settings",
     "wagtail.users",
@@ -129,4 +129,4 @@ MEDIA_URL = "/media/"
 
 WAGTAIL_SITE_NAME = "Instance Selector Example"
 
-X_FRAME_OPTIONS = 'SAMEORIGIN'
+X_FRAME_OPTIONS = "SAMEORIGIN"

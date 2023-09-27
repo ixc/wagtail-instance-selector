@@ -24,13 +24,16 @@ function create_instance_selector_widget(opts) {
         enter_loading_state();
 
         // Remove any previous modals
-        $('body > .modal').remove();
+        // $('body > .modal').remove();
 
         modal = $(`
             <div class="modal fade instance-selector-widget-modal" tabindex="-1" role="dialog" aria-hidden="true">
                 <div class="modal-dialog">
                     <div class="modal-content instance-selector-widget-modal__content">
-                        <button type="button" class="button close icon text-replace icon-cross" data-dismiss="modal" aria-hidden="true">&times;</button>
+                        <button type="button" class="button close button--icon text-replace" data-dismiss="modal">
+                            <svg class="icon icon-cross" aria-hidden="true"><use href="#icon-cross"></use></svg>
+                            Close
+                        </button>
                         <div class="modal-body instance-selector-widget-modal__body">
                             <iframe class="instance-selector-widget-modal__embed" src="${opts.embed_url}" frameborder="0"></iframe>                        
                         </div>
