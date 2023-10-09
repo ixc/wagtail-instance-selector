@@ -38,11 +38,9 @@ class InstanceSelectorWidget(WidgetWithScript, widgets.Input):
         # cannot include model instances. Instead, we return the raw values used in rendering -
         # namely: pk, display_markup and edit_url
 
-        if not str(value).strip(): # value might be "" (Wagtail 5.0+)
-            value = None
-
-        if value is None or isinstance(value, self.target_model):
-            instance = value
+        # value might be "" (Wagtail 5.0+)
+        if not value or isinstance(value, self.target_model):
+            instance = None
         else:  # assume this is an instance ID
             instance = self.target_model.objects.get(pk=value)
 
