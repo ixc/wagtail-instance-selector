@@ -48,6 +48,13 @@ class InstanceSelectorBlock(ChooserBlock):
         kwargs["target_model"] = self.target_model._meta.label_lower
         return name, args, kwargs
 
+    def value_from_form(self, value):
+        # When validation fails, the value might be "" (Wagtail 5.0+)
+        # and None if succeeds.
+        if value == "":
+            value = None
+
+        return super().value_from_form(value)
 
 class InstanceSelectorBlockAdapter(FieldBlockAdapter):
     def js_args(self, block):
