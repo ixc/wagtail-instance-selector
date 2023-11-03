@@ -1,6 +1,11 @@
 Changelog
 =========
 
+### 3.0.1 (03/11/2023)
+
+- Wagtail 5.0+ - Update get_value_data to assign None value instead of empty string
+  PR: https://github.com/ixc/wagtail-instance-selector/pull/36
+
 ### 3.0.0 (27/09/2023)
 
 - Add support for Wagtail 5 and drop support for all Wagtail versions before 4.1.
