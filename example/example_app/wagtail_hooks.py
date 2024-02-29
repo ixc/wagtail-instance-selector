@@ -1,8 +1,10 @@
 from django.utils.safestring import mark_safe
-from wagtail.contrib.modeladmin.options import ModelAdmin, modeladmin_register
+from wagtail_modeladmin.options import ModelAdmin, modeladmin_register
+
 from instance_selector.registry import registry
 from instance_selector.selectors import ModelAdminInstanceSelector
-from .models import Shop, Product, Image
+
+from .models import Image, Product, Shop
 
 
 @modeladmin_register

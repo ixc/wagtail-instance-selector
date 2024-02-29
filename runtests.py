@@ -1,4 +1,5 @@
 import sys
+
 from django.conf import settings
 
 settings.configure(
@@ -16,7 +17,7 @@ settings.configure(
             "django.contrib.messages",
             "wagtail.admin",
             "wagtail",
-            "wagtail.contrib.modeladmin",
+            "wagtail_modeladmin",
             "wagtail.contrib.settings",
             "wagtail.users",
             "wagtail.documents",

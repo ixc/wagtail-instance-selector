@@ -1,3 +1,4 @@
 django>=3.2
-wagtail>=4.1
+wagtail>=5.2
+wagtail-modeladmin==2.0.0
 wagtail-instance-selector
