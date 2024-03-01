@@ -25,7 +25,7 @@ SECRET_KEY = "(#(!pj=@l5e6aiq8($950frv%*_e=s*a5-1ne$qu(u_b053wr("
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ["*"]
 
 
 # Application definition
@@ -113,7 +113,6 @@ TIME_ZONE = "UTC"
 
 USE_I18N = True
 
-USE_L10N = True
 
 USE_TZ = True
 
