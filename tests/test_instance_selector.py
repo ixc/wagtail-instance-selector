@@ -1,7 +1,6 @@
 from django.contrib.auth import get_user_model
 from django.urls import reverse
 from django_webtest import WebTest
-from wagtail import VERSION as WAGTAIL_VERSION
 
 from instance_selector.constants import OBJECT_PK_PARAM
 from instance_selector.registry import registry
@@ -95,19 +94,11 @@ class Tests(WebTest):
             "/admin/test_app/testmodelb/edit/%s/" % b.pk, user=self.superuser
         )
 
-        if WAGTAIL_VERSION >= (6, 0):
-            from html import escape
+        self.assertIn(
+            '<input type="hidden" name="test_model_a" value="1" id="id_test_model_a" data-controller="instance-selector" data-instance-selector-config-value="{&quot;input_id&quot;: &quot;id_test_model_a&quot;, &quot;widget_id&quot;: &quot;id_test_model_a-instance-selector-widget&quot;, &quot;field_name&quot;: &quot;test_model_a&quot;, &quot;embed_url&quot;: &quot;/admin/instance-selector/embed/test_app.testmodela/#instance_selector_embed_id:test_model_a&quot;, &quot;embed_id&quot;: &quot;test_model_a&quot;, &quot;lookup_url&quot;: &quot;/admin/instance-selector/lookup/test_app.testmodela/&quot;, &quot;OBJECT_PK_PARAM&quot;: &quot;object_pk&quot;}">',
+            res.text,
+        )
 
-            self.assertIn(
-                '<input type="hidden" name="test_model_a" value="1" id="id_test_model_a" data-controller="instance-selector" data-instance-selector-config-value="{&quot;input_id&quot;: &quot;id_test_model_a&quot;, &quot;widget_id&quot;: &quot;id_test_model_a-instance-selector-widget&quot;, &quot;field_name&quot;: &quot;test_model_a&quot;, &quot;embed_url&quot;: &quot;/admin/instance-selector/embed/test_app.testmodela/#instance_selector_embed_id:test_model_a&quot;, &quot;embed_id&quot;: &quot;test_model_a&quot;, &quot;lookup_url&quot;: &quot;/admin/instance-selector/lookup/test_app.testmodela/&quot;, &quot;OBJECT_PK_PARAM&quot;: &quot;object_pk&quot;}">',
-                res.text,
-            )
-        else:
-            self.assertIn(
-                '<input type="hidden" name="test_model_a" value="%s" id="id_test_model_a">'
-                % a.pk,
-                res.text,
-            )
         self.assertIn(
             '<span class="instance-selector-widget__display__title">TestModelA object (%s)</span>'
             % a.pk,
