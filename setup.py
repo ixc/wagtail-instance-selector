@@ -2,7 +2,7 @@ from setuptools import setup
 import instance_selector
 
 
-install_requires = ["wagtail>=5.2", "wagtail-modeladmin"]
+install_requires = ["wagtail>=6.3", "wagtail-modeladmin"]
 testing_requires = ["django_webtest"]
 
 setup(
@@ -24,9 +24,7 @@ setup(
             "Framework :: Django :: 3.2",
             "Framework :: Django :: 4.2",
             "Framework :: Django :: 5.1",
-            "Framework :: Django :: 5.2",
             "Framework :: Wagtail",
-            "Framework :: Wagtail :: 5",
             "Framework :: Wagtail :: 6",
             "Framework :: Wagtail :: 7",
             "License :: OSI Approved :: MIT License",
