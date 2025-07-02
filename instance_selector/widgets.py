@@ -6,7 +6,6 @@ from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
 from wagtail import VERSION as WAGTAIL_VERSION
 from wagtail.telepath import register
-from wagtail.utils.widgets import WidgetWithScript
 from wagtail.widget_adapters import WidgetAdapter
 
 from instance_selector.constants import OBJECT_PK_PARAM
@@ -161,7 +160,7 @@ if WAGTAIL_VERSION >= (6, 0):
             )
 
 else:
-
+    from wagtail.utils.widgets import WidgetWithScript
     class InstanceSelectorWidget(WidgetWithScript, widgets.Input):
         # when looping over form fields, this one should appear in visible_fields, not hidden_fields
         # despite the underlying input being type="hidden"
