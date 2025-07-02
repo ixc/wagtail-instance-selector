@@ -277,13 +277,35 @@ class Tests(WebTest):
             res.text,
         )
 
+    """
+    <div id="body" data-block data-controller="w-block" data-w-block-data-value="{"_type": "wagtail.blocks.StreamBlock", "_args": ["", [["", [{"_type": "wagtail.blocks.FieldBlock", "_args": ["test", {"_type": "wagtail.widgets.Widget", "_args": ["<input type=\"text\" name=\"__NAME__\" id=\"__ID__\">", "__ID__"]}, {"label": "Test", "description": "", "required": true, "icon": "placeholder", "blockDefId": "blockdef-0", "isPreviewable": false, "classname": "w-field w-field--model_choice_field w-field--text_input", "showAddCommentButton": true, "strings": {"ADD_COMMENT": "Add Comment"}}]}]]], {"test": {"pk": null, "display_markup": "<div class=\"instance-selector-widget__display instance-selector-widget__display--no-image\">\n    <div class=\"instance-selector-widget__display__image-wrap\">\n        <a\n            href=\"None\"\n            class=\"instance-selector-widget__display__edit-link instance-selector-widget__display__edit-link--image js-instance-selector-widget-display-edit-link\"\n            target=\"_blank\"\n        >\n            <img\n                \n                class=\"instance-selector-widget__display__image\"\n                \n                    style=\"max-width: 165px; max-height: 165px; \"\n                \n            >\n        </a>\n    </div>\n    <div class=\"instance-selector-widget__display__title-wrap\">\n        <a\n            href=\"None\"\n            class=\"instance-selector-widget__display__edit-link instance-selector-widget__display__edit-link--title js-instance-selector-widget-display-edit-link\"\n            target=\"_blank\"\n        >\n            <span class=\"instance-selector-widget__display__title\">None</span>\n        </a>\n    </div>\n</div>\n", "edit_url": null}}, {"label": "", "description": "", "required": true, "icon": "placeholder", "blockDefId": "blockdef-1", "isPreviewable": false, "classname": null, "maxNum": null, "minNum": null, "blockCounts": {}, "collapsed": false, "strings": {"MOVE_UP": "Move up", "MOVE_DOWN": "Move down", "DRAG": "Drag", "DUPLICATE": "Duplicate", "DELETE": "Delete", "ADD": "Add"}}]}" data-w-block-arguments-value="[[],null]"></div>
+    """
+
+
     def test_blocks_can_render_widget_code(self):
+        from bs4 import BeautifulSoup
         c = TestModelC.objects.create()
         res = self.app.get(
             "/admin/test_app/testmodelc/edit/%s/" % c.pk, user=self.superuser
         )
+        soup = BeautifulSoup(res.text, "html.parser")
+        body = soup.find(id="body")
+        
+        self.assertIsNotNone(body)
+        
         # rendered widget output is embedded in JSON within the data-block attribute
+        self.assertIn("data-block", body.attrs)
+        self.assertIn("data-controller", body.attrs)
+        self.assertIn("data-w-block-data-value", body.attrs)
+        self.assertIn("data-w-block-arguments-value", body.attrs)
+        
+        # look for required true in the JSON data-block attribute
         self.assertIn(
-            "class=\&quot;instance-selector-widget instance-selector-widget--unselected instance-selector-widget--required\&quot;",
-            res.text,
+            '"required": true,', body.attrs["data-w-block-data-value"]
+        )
+
+        # look for class=\"instance-selector-widget__display\" in the JSON data-block attribute
+        self.assertIn(
+            '"display_markup": "<div class=\\"instance-selector-widget__display instance-selector-widget__display--no-image\\"',
+            body.attrs["data-w-block-data-value"],
         )
