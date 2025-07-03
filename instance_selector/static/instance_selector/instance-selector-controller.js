@@ -1,5 +1,3 @@
-// intance_selector/static/intance_selector/instance-selector-controller.js
-
 class InstanceSelectorController extends window.StimulusModule.Controller {
     static values = { config: Object };
 
