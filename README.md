@@ -125,7 +125,7 @@ StreamField([
 ### Customizing the widget's display and behaviour
 
 ```python
-from wagtail.contrib.modeladmin.options import ModelAdmin, modeladmin_register
+from wagtail_modeladmin.options import ModelAdmin, modeladmin_register
 from instance_selector.registry import registry
 from instance_selector.selectors import ModelAdminInstanceSelector
 from .models import MyModel

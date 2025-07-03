@@ -1,17 +1,19 @@
 import json
+
 from django.forms import widgets
 from django.template.loader import render_to_string
 from django.urls import reverse
 from django.utils.translation import gettext_lazy as _
+from wagtail.telepath import register
+from wagtail.widget_adapters import WidgetAdapter
+
 from instance_selector.constants import OBJECT_PK_PARAM
 from instance_selector.registry import registry
 
-from wagtail.telepath import register
-from wagtail.utils.widgets import WidgetWithScript
-from wagtail.widget_adapters import WidgetAdapter
+from django.forms import Media
+from django.utils.safestring import mark_safe
 
-
-class InstanceSelectorWidget(WidgetWithScript, widgets.Input):
+class InstanceSelectorWidget(widgets.Input):
     # when looping over form fields, this one should appear in visible_fields, not hidden_fields
     # despite the underlying input being type="hidden"
     input_type = "hidden"
@@ -30,6 +32,23 @@ class InstanceSelectorWidget(WidgetWithScript, widgets.Input):
 
         super().__init__(**kwargs)
 
+    def render(self, name, value, attrs=None, renderer=None):
+        # no point trying to come up with sensible semantics for when 'id' is missing from attrs,
+        # so let's make sure it fails early in the process
+
+        self.name = name
+        try:
+            self.id_ = attrs["id"]
+        except (KeyError, TypeError):
+            raise TypeError(
+                "InstanceSelectorWidget cannot be rendered without an 'id' attribute"
+            )
+
+        value_data = self.get_value_data(value)
+        widget_html = self.render_html(name, value_data, attrs)
+
+        return mark_safe(widget_html)
+
     def get_value_data(self, value):
         # Given a data value (which may be None, a model instance, or a PK here),
         # extract the necessary data for rendering the widget with that value.
@@ -38,7 +57,7 @@ class InstanceSelectorWidget(WidgetWithScript, widgets.Input):
         # cannot include model instances. Instead, we return the raw values used in rendering -
         # namely: pk, display_markup and edit_url
 
-        if not str(value).strip(): # value might be "" (Wagtail 5.0+)
+        if not str(value).strip():  # value might be "" (Wagtail 5.0+)
             value = None
 
         if value is None or isinstance(value, self.target_model):
@@ -61,8 +80,8 @@ class InstanceSelectorWidget(WidgetWithScript, widgets.Input):
 
     def render_html(self, name, value, attrs):
         value_data = value
-        
-        original_field_html = super().render_html(name, value_data["pk"], attrs)
+
+        original_field_html = super().render(name, value_data["pk"], attrs)
 
         app_label = self.target_model._meta.app_label
         model_name = self.target_model._meta.model_name
@@ -122,10 +141,20 @@ class InstanceSelectorWidget(WidgetWithScript, widgets.Input):
             "OBJECT_PK_PARAM": OBJECT_PK_PARAM,
         }
 
-    def render_js_init(self, id_, name, value):
-        config = self.get_js_config(id_, name)
-        return "create_instance_selector_widget({config});".format(
-            config=json.dumps(config)
+    def build_attrs(self, *args, **kwargs):
+        attrs = super().build_attrs(*args, **kwargs)
+        attrs["data-controller"] = "instance-selector"
+        attrs["data-instance-selector-config-value"] = json.dumps(
+            self.get_js_config(self.id_, self.name)
+        )
+        return attrs
+
+    @property
+    def media(self):
+        return Media(
+            js=[
+                "instance_selector/instance-selector-controller.js",
+            ]
         )
 
 
