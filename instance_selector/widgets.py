@@ -41,7 +41,7 @@ class InstanceSelectorWidget(widgets.Input):
             self.id_ = attrs["id"]
         except (KeyError, TypeError):
             raise TypeError(
-                "WidgetWithScript cannot be rendered without an 'id' attribute"
+                "InstanceSelectorWidget cannot be rendered without an 'id' attribute"
             )
 
         value_data = self.get_value_data(value)
