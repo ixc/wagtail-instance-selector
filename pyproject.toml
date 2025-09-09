@@ -1,0 +1,110 @@
+[project]
+name = "wagtail-instance-selector"
+# This needs to also be updated in __init__.py
+version = "3.0.1"
+license = { file = "LICENSE" }
+keywords = ["wagtail", "instance", "selector"]
+dependencies = [
+    "wagtail>=6.3",
+    "wagtail-modeladmin",
+]
+description = "A widget for Wagtail's admin that allows you to create and select related items"
+requires-python = ">=3.9"
+readme = { file = "README.md", content-type = "text/markdown" }
+authors = [
+    { name = "The Interaction Consortium", email = "studio@interaction.net.au"},
+]
+maintainers = [
+    { name = "The Interaction Consortium", email = "studio@interaction.net.au" }
+]
+classifiers = [
+    "Development Status :: 5 - Production/Stable",
+    "Intended Audience :: Developers",
+    "Intended Audience :: End Users/Desktop",
+    "Environment :: Web Environment",
+    "Framework :: Django",
+    "Framework :: Django :: 3.2",
+    "Framework :: Django :: 4.2",
+    "Framework :: Django :: 5.1",
+    "Framework :: Wagtail",
+    "Framework :: Wagtail :: 6",
+    "Framework :: Wagtail :: 7",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.9",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Utilities",
+]
+
+[project.optional-dependencies]
+testing = [
+    "django_webtest",
+]
+dev = [
+    "django>=4.2",
+    "ruff==0.12.12",
+    "ipdb>=0.13,<1.0",
+]
+
+[project.urls]
+homepage = "https://github.com/ixc/wagtail-instance-selector"
+issues = "https://github.com/ixc/wagtail-instance-selector/issues"
+repository = "https://github.com/ixc/wagtail-instance-selector.git"
+changelog = "https://github.com/ixc/wagtail-instance-selector/blob/main/CHANGELOG.md"
+
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[tool.setuptools.packages.find]
+where = ["."]
+include = ["instance_selector*"]
+
+[tool.setuptools]
+include-package-data = true
+
+[tool.ruff]
+# Python 3.11
+target-version = "py311"
+
+extend-exclude = [
+    "**/migrations/*",
+]
+
+[tool.ruff.lint]
+select = [
+    # pycodestyle
+    "E",
+    # pycodestyle warnings
+    "W",
+    # Pyflakes
+    "F",
+    # pyupgrade
+    ## Flake8 plugins
+    "UP",
+    # flake8-bugbear
+    "B",
+    # flake8-comprehensions
+    "C",
+    # flake8-django
+    "DJ",
+    # flake8-bandit
+    "S",
+    # flake8-simplify
+    "SIM",
+    # isort
+    "I",
+]
+
+ignore = [
+    # Ignore Pycodestyle line-length warnings, (mainly long comments).
+    "E501",
+    # Ignore McCabe complexity (for now).
+    "C901",
+    # Ignore percent format -> format specifier rule for now (pending merge of #73 which resolves them)
+    "UP031",
+]
