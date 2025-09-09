@@ -101,10 +101,10 @@ select = [
 ]
 
 ignore = [
-    # Ignore Pycodestyle line-length warnings, (mainly long comments).
-    "E501",
-    # Ignore McCabe complexity (for now).
-    "C901",
-    # Ignore percent format -> format specifier rule for now (pending merge of #73 which resolves them)
-    "UP031",
+    # Ignore mark_safe warning
+    "S308",
 ]
+
+[tool.ruff.lint.per-file-ignores]
+# Ignore Pycodestyle line-length warnings (mainly long test assertions)
+"tests/test_instance_selector.py" = ["E501"]

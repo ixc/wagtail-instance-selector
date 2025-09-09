@@ -25,9 +25,9 @@ class ImageAdmin(ModelAdmin):
 
     def image_preview(self, instance):
         if instance:
+            image_url = instance.image.url
             return mark_safe(
-                '<img src="%s" style="max-width: 165px; max-height: 165px;">'
-                % instance.image.url
+                f'<img src="{image_url}" style="max-width: 165px; max-height: 165px;">'
             )
         return ""
 
