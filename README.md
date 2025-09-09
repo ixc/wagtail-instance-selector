@@ -16,7 +16,7 @@ A widget for Wagtail's admin that allows you to create and select related items.
 
 ### Customizable widget display
 
-By default, widgets appear similar to other Wagtail elements, but they can be customised to include images 
+By default, widgets appear similar to other Wagtail elements, but they can be customised to include images
 and other items.
 
 ![](./images/fields.png)
@@ -44,7 +44,7 @@ After creation, items can be selected from the success message or from the list 
 pip install wagtail-instance-selector
 ```
 
-and add `'instance_selector'` to `INSTALLED_APPS`.
+and add `'instance_selector'` and `'wagtail_modeladmin'` to `INSTALLED_APPS`.
 
 If you're using Django 3+, you will need to change Django's iframe security flag in your settings:
 
@@ -100,7 +100,7 @@ class Shop(models.Model):
     panels = [FieldPanel("content")]
 ```
 
-To create reusable blocks, you can subclass `InstanceSelectorBlock`.  
+To create reusable blocks, you can subclass `InstanceSelectorBlock`.
 
 ```python
 from instance_selector.blocks import InstanceSelectorBlock
@@ -110,10 +110,10 @@ class ProductBlock(InstanceSelectorBlock):
     def __init__(self, *args, **kwargs):
         target_model = kwargs.pop("target_model", "my_app.Product")
         super().__init__(target_model=target_model, **kwargs)
-    
+
     class Meta:
         icon = "image"
-        
+
 # ...
 
 StreamField([
@@ -146,7 +146,7 @@ class MyModelInstanceSelector(ModelAdminInstanceSelector):
     def get_instance_display_image_url(self, instance):
         if instance:
             return "/url/to/some/image.jpg"
-            
+
     def get_instance_display_image_styles(self, instance):
         # The `style` properties set on the <img> element, primarily of use
         # to work within style+layout patterns
@@ -155,24 +155,24 @@ class MyModelInstanceSelector(ModelAdminInstanceSelector):
                 'max-width': '165px',
                 # ...
             }
-        
+
     def get_instance_display_markup(self, instance):
         # Overriding this method allows you to completely control how the
         # widget will display the relation to this specific model
         return "<div> ... </div>"
-        
+
     def get_instance_display_template(self):
         # The template used by `get_instance_display_markup`
         return "instance_selector/instance_selector_widget_display.html"
-        
+
     def get_instance_selector_url(self):
-        # The url that the widget will render within a modal. By default, this 
+        # The url that the widget will render within a modal. By default, this
         # is the ModelAdmin"s list view
         return "/url/to/some/view/"
-    
+
     def get_instance_edit_url(self, instance):
-        # The url that the user can edit the instance on. By default, this is 
-        # the ModelAdmin"s edit view 
+        # The url that the user can edit the instance on. By default, this is
+        # the ModelAdmin"s edit view
         if instance:
             return "/url/to/some/view/"
 
@@ -186,14 +186,14 @@ are more specific, you may find some use in `instance_selector.selectors.BaseIns
 
 ## Rationale & Credits
 
-Largely, this is a rewrite of [neon-jungle/wagtailmodelchooser](https://github.com/neon-jungle/wagtailmodelchooser) 
-that focuses on reusing the functionality in the ModelAdmins. We had started a large build using wagtailmodelchooser 
-heavily, but quickly ran into UI problems when users needed to filter the objects or create them inline. After 
-[neon-jungle/wagtailmodelchooser#11](https://github.com/neon-jungle/wagtailmodelchooser/issues/11) received little 
-response, the decision was made to piece together parts from the ecosystem and replicate the flexibility of 
+Largely, this is a rewrite of [neon-jungle/wagtailmodelchooser](https://github.com/neon-jungle/wagtailmodelchooser)
+that focuses on reusing the functionality in the ModelAdmins. We had started a large build using wagtailmodelchooser
+heavily, but quickly ran into UI problems when users needed to filter the objects or create them inline. After
+[neon-jungle/wagtailmodelchooser#11](https://github.com/neon-jungle/wagtailmodelchooser/issues/11) received little
+response, the decision was made to piece together parts from the ecosystem and replicate the flexibility of
 django's `raw_id_fields`, while preserving the polish in Wagtail's UI.
 
-Much of this library was built atop of the work of others, specifically: 
+Much of this library was built atop of the work of others, specifically:
 - https://github.com/neon-jungle/wagtailmodelchooser
 - https://github.com/springload/wagtailmodelchoosers
 - https://github.com/Naeka/wagtailmodelchooser
