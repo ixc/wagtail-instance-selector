@@ -210,9 +210,10 @@ python runtests.py
 ```
 
 
-### Formatting
+### Linting and formatting
 
-```
+```bash
 pip install -r requirements.txt
-black .
+ruff check
+ruff format
 ```
