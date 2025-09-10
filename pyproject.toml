@@ -1,7 +1,7 @@
 [project]
 name = "wagtail-instance-selector"
 # This needs to also be updated in __init__.py
-version = "3.0.1"
+version = "3.1.0"
 license = { file = "LICENSE" }
 keywords = ["wagtail", "instance", "selector"]
 dependencies = [
