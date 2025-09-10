@@ -1,6 +1,6 @@
 from django.urls import re_path
-from instance_selector.views import instance_selector_embed, instance_selector_lookup
 
+from instance_selector.views import instance_selector_embed, instance_selector_lookup
 
 urlpatterns = [
     re_path(

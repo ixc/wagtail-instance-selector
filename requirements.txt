@@ -1,6 +1,7 @@
-django>=3.2
+# Development requirements
+django>=4.2
 django-webtest>=1.9.5,<2.0
 wagtail>=6.3
-black==24.3.0
-ipdb>=0.12,<1.0
-
+wagtail-modeladmin>=2.0
+ruff==0.12.12
+ipdb>=0.13,<1.0

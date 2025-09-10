@@ -1,18 +1,17 @@
 from django import forms
 from django.utils.functional import cached_property, lazy
-
-from instance_selector.widgets import InstanceSelectorWidget
-from instance_selector.registry import registry
-
 from wagtail.blocks import ChooserBlock
+from wagtail.blocks.field_block import FieldBlockAdapter
 from wagtail.coreutils import resolve_model_string
 from wagtail.telepath import register
-from wagtail.blocks.field_block import FieldBlockAdapter
 
+from instance_selector.registry import registry
+from instance_selector.widgets import InstanceSelectorWidget
 
 
 class InstanceSelectorBlock(ChooserBlock):
     widget = forms.TextInput  # Dummy widget to satisfy Wagtail internals
+
     class Meta:
         icon = "placeholder"
 
@@ -54,6 +53,7 @@ class InstanceSelectorBlock(ChooserBlock):
             value = None
 
         return super().value_from_form(value)
+
 
 class InstanceSelectorBlockAdapter(FieldBlockAdapter):
     def js_args(self, block):

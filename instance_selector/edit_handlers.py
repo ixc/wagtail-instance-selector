@@ -1,9 +1,8 @@
 from django.template.loader import render_to_string
 from django.utils.safestring import mark_safe
+from wagtail.admin.panels import FieldPanel
 
 from instance_selector.widgets import InstanceSelectorWidget
-
-from wagtail.admin.panels import FieldPanel
 
 
 class InstanceSelectorPanel(FieldPanel):
@@ -14,7 +13,9 @@ class InstanceSelectorPanel(FieldPanel):
         opts = super().get_form_options()
 
         # Use the instance selector widget for this option
-        opts["widgets"] = {self.field_name: InstanceSelectorWidget(model=self.target_model)}
+        opts["widgets"] = {
+            self.field_name: InstanceSelectorWidget(model=self.target_model)
+        }
 
         return opts
 

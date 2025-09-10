@@ -4,13 +4,14 @@ from django_webtest import WebTest
 
 from instance_selector.constants import OBJECT_PK_PARAM
 from instance_selector.registry import registry
-from instance_selector.selectors import (BaseInstanceSelector,
-                                         ModelAdminInstanceSelector,
-                                         WagtailUserInstanceSelector)
+from instance_selector.selectors import (
+    BaseInstanceSelector,
+    ModelAdminInstanceSelector,
+    WagtailUserInstanceSelector,
+)
 
 from .test_project.test_app.models import TestModelA, TestModelB, TestModelC
-from .test_project.test_app.wagtail_hooks import (TestModelAAdmin,
-                                                  TestModelBAdmin)
+from .test_project.test_app.wagtail_hooks import TestModelAAdmin, TestModelBAdmin
 
 User = get_user_model()
 
@@ -77,7 +78,7 @@ class Tests(WebTest):
     def test_widget_renders_during_model_edit_without_value(self):
         b = TestModelB.objects.create()
         res = self.app.get(
-            "/admin/test_app/testmodelb/edit/%s/" % b.pk, user=self.superuser
+            f"/admin/test_app/testmodelb/edit/{b.pk}/", user=self.superuser
         )
         self.assertIn("/static/instance_selector/instance_selector.css", res.text)
         self.assertIn("/static/instance_selector/instance_selector_embed.js", res.text)
@@ -91,7 +92,7 @@ class Tests(WebTest):
         a = TestModelA.objects.create()
         b = TestModelB.objects.create(test_model_a=a)
         res = self.app.get(
-            "/admin/test_app/testmodelb/edit/%s/" % b.pk, user=self.superuser
+            f"/admin/test_app/testmodelb/edit/{b.pk}/", user=self.superuser
         )
 
         self.assertIn(
@@ -100,8 +101,7 @@ class Tests(WebTest):
         )
 
         self.assertIn(
-            '<span class="instance-selector-widget__display__title">TestModelA object (%s)</span>'
-            % a.pk,
+            f'<span class="instance-selector-widget__display__title">TestModelA ({a.pk})</span>',
             res.text,
         )
 
@@ -122,7 +122,7 @@ class Tests(WebTest):
         b = TestModelB.objects.create(test_model_a=a)
 
         res = self.app.get(
-            "/admin/test_app/testmodelb/edit/%s/" % b.pk, user=self.superuser
+            f"/admin/test_app/testmodelb/edit/{b.pk}/", user=self.superuser
         )
         self.assertIn(
             "/static/instance_selector/instance_selector.css",
@@ -158,7 +158,7 @@ class Tests(WebTest):
         b = TestModelB.objects.create(test_model_a=a)
 
         res = self.app.get(
-            "/admin/test_app/testmodelb/edit/%s/" % b.pk, user=self.superuser
+            f"/admin/test_app/testmodelb/edit/{b.pk}/", user=self.superuser
         )
         self.assertIn(
             "/static/instance_selector/instance_selector.css",
@@ -181,21 +181,19 @@ class Tests(WebTest):
 
         a = TestModelA.objects.create()
 
-        lookup_url = "%s?%s=%s" % (
-            reverse(
-                "wagtail_instance_selector_lookup",
-                kwargs={"app_label": "test_app", "model_name": "TestModelA"},
-            ),
-            OBJECT_PK_PARAM,
-            a.pk,
+        model_reverse = reverse(
+            "wagtail_instance_selector_lookup",
+            kwargs={"app_label": "test_app", "model_name": "TestModelA"},
         )
+        lookup_url = f"{model_reverse}?{OBJECT_PK_PARAM}={a.pk}"
         res = self.app.get(lookup_url, user=self.superuser)
+
         self.assertEqual(
             res.json,
             {
                 "display_markup": selector.get_instance_display_markup(a),
-                "edit_url": "/admin/test_app/testmodela/edit/%s/" % a.pk,
-                "pk": "%s" % a.pk,
+                "edit_url": f"/admin/test_app/testmodela/edit/{a.pk}/",
+                "pk": f"{a.pk}",
             },
         )
 
@@ -211,21 +209,19 @@ class Tests(WebTest):
 
         a = TestModelA.objects.create()
 
-        lookup_url = "%s?%s=%s" % (
-            reverse(
-                "wagtail_instance_selector_lookup",
-                kwargs={"app_label": "test_app", "model_name": "TestModelA"},
-            ),
-            OBJECT_PK_PARAM,
-            a.pk,
+        model_reverse = reverse(
+            "wagtail_instance_selector_lookup",
+            kwargs={"app_label": "test_app", "model_name": "TestModelA"},
         )
+        lookup_url = f"{model_reverse}?{OBJECT_PK_PARAM}={a.pk}"
         res = self.app.get(lookup_url, user=self.superuser)
+
         self.assertEqual(
             res.json,
             {
                 "display_markup": "test display markup",
                 "edit_url": "test edit url",
-                "pk": "%s" % a.pk,
+                "pk": f"{a.pk}",
             },
         )
 
@@ -245,8 +241,7 @@ class Tests(WebTest):
         )
         res = self.app.get(embed_url, user=self.superuser)
         self.assertIn(
-            '<iframe onload="removeSidebar(this);" src="%s#instance_selector_embed_id:test_app-testmodela-'
-            % selector.get_instance_selector_url(),
+            f'<iframe onload="removeSidebar(this);" src="{selector.get_instance_selector_url()}#instance_selector_embed_id:test_app-testmodela-',
             res.text,
         )
 
@@ -270,25 +265,24 @@ class Tests(WebTest):
 
     def test_blocks_can_render_widget_code(self):
         from bs4 import BeautifulSoup
+
         c = TestModelC.objects.create()
         res = self.app.get(
-            "/admin/test_app/testmodelc/edit/%s/" % c.pk, user=self.superuser
+            f"/admin/test_app/testmodelc/edit/{c.pk}/", user=self.superuser
         )
         soup = BeautifulSoup(res.text, "html.parser")
         body = soup.find(id="body")
-        
+
         self.assertIsNotNone(body)
-        
+
         # rendered widget output is embedded in JSON within the data-block attribute
         self.assertIn("data-block", body.attrs)
         self.assertIn("data-controller", body.attrs)
         self.assertIn("data-w-block-data-value", body.attrs)
         self.assertIn("data-w-block-arguments-value", body.attrs)
-        
+
         # look for required true in the JSON data-block attribute
-        self.assertIn(
-            '"required": true,', body.attrs["data-w-block-data-value"]
-        )
+        self.assertIn('"required": true,', body.attrs["data-w-block-data-value"])
 
         # look for class=\"instance-selector-widget__display\" in the JSON data-block attribute
         self.assertIn(

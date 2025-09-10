@@ -1,6 +1,7 @@
 import inspect
-from django.urls import reverse
+
 from django.template import loader
+from django.urls import reverse
 from django.utils.safestring import mark_safe
 
 
@@ -72,15 +73,16 @@ class ModelAdminInstanceSelector(BaseInstanceSelector):
 
         if not self.model_admin:
             raise Exception(
-                "`model_admin` must be defined as an attribute on %s or passed to its __init__ method"
-                % (type(self))
+                f"`model_admin` must be defined as an attribute on {type(self)} or "
+                "passed to its __init__ method"
             )
 
         if inspect.isclass(self.model_admin):
             raise Exception(
-                "Expected an instance of a model admin class, but received %s. "
-                "You may need to instantiate your model admin before passing it to the instance selector"
-                % self.model_admin
+                "Expected an instance of a model admin class, but received "
+                f"{self.model_admin}. "
+                "You may need to instantiate your model admin before passing it to "
+                "the instance selector"
             )
 
     def get_instance_selector_url(self):
