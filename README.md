@@ -201,6 +201,9 @@ Much of this library was built atop of the work of others, specifically:
 
 ## Development notes
 
+### Upgrading Wagtail versions
+
+When upgrading this, ensure both `InstanceSelectorPanel` and `InstanceSelectorBlock` are tested manually via the example projects as they use different JavaScript integration approaches.
 
 ### Run tests
 
