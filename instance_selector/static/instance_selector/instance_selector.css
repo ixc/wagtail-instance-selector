@@ -6,8 +6,24 @@
     display: none;
 }
 
-.is-instance-selector-embed .header-title .right {
-    float: left;
+/* Hide the add button */
+.is-instance-selector-embed .w-header .right {
+    display: none;
+}
+
+/* Override wagtail styles [smaller screens] to make sure the title appears in line with the rows */
+@media (max-width: 50em) {
+    .is-instance-selector-embed .w-header.w-header--with-padding,
+    .is-instance-selector-embed .w-header>.row {
+        padding-inline-start: 3rem !important;
+        padding-inline-end: 3rem !important;
+    }
+}
+
+/* Override wagtail styles to make sure extra padding isn't added to the title */
+.is-instance-selector-embed .w-header.w-header--with-padding,
+.is-instance-selector-embed .w-header>.row {
+    padding-top: 0.5rem;
 }
 
 .instance-selector__success-message__select-button {
@@ -20,6 +36,13 @@
 
 .is-instance-selector-embed .instance-selector__select-button {
     cursor: pointer;
+}
+
+.instance-selector-widget {
+    padding: 12px;
+    border: 1px solid #e8e8e8;
+    border-radius: 4px;
+    background-color: #fafafa;
 }
 
 .instance-selector-widget .unchosen:before {
@@ -40,10 +63,11 @@
     left: 0;
     width: 100%;
     height: 100%;
+    padding: 10px;
 }
 
 .instance-selector-widget-modal .button.close {
-    right: 25px;
+    right: 10px;
     color: var(--w-color-primary);
 }
 
@@ -85,7 +109,11 @@
 }
 
 .instance-selector-widget__display {
-    margin-bottom: 10px;
+    margin-bottom: 8px;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+    background-color: #ffffff;
 }
 
 .instance-selector-widget__display--no-image .instance-selector-widget__display__image-wrap {

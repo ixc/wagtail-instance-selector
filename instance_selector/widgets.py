@@ -155,7 +155,7 @@ class InstanceSelectorWidget(widgets.Input):
         # Add Stimulus controller attributes for InstanceSelectorPanel usage.
         # Skip during telepath serialisation for InstanceSelectorBlock
         # (when id_ hasn't been set yet).
-        if hasattr(self, 'id_') and hasattr(self, 'name'):
+        if hasattr(self, "id_") and hasattr(self, "name"):
             attrs["data-controller"] = "instance-selector"
             attrs["data-instance-selector-config-value"] = json.dumps(
                 self.get_js_config(self.id_, self.name)
