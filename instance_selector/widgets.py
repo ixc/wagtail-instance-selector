@@ -5,8 +5,15 @@ from django.template.loader import render_to_string
 from django.urls import reverse
 from django.utils.safestring import mark_safe
 from django.utils.translation import gettext_lazy as _
-from wagtail.telepath import register
-from wagtail.widget_adapters import WidgetAdapter
+
+# Handle Wagtail 8.0+ import location changes
+try:
+    from wagtail.admin.telepath import register
+    from wagtail.admin.telepath.widgets import WidgetAdapter
+except ImportError:
+    # Fallback for Wagtail < 8.0
+    from wagtail.telepath import register
+    from wagtail.widget_adapters import WidgetAdapter
 
 from instance_selector.constants import OBJECT_PK_PARAM
 from instance_selector.registry import registry
@@ -144,10 +151,16 @@ class InstanceSelectorWidget(widgets.Input):
 
     def build_attrs(self, *args, **kwargs):
         attrs = super().build_attrs(*args, **kwargs)
-        attrs["data-controller"] = "instance-selector"
-        attrs["data-instance-selector-config-value"] = json.dumps(
-            self.get_js_config(self.id_, self.name)
-        )
+
+        # Add Stimulus controller attributes for InstanceSelectorPanel usage.
+        # Skip during telepath serialisation for InstanceSelectorBlock
+        # (when id_ hasn't been set yet).
+        if hasattr(self, "id_") and hasattr(self, "name"):
+            attrs["data-controller"] = "instance-selector"
+            attrs["data-instance-selector-config-value"] = json.dumps(
+                self.get_js_config(self.id_, self.name)
+            )
+
         return attrs
 
     @property

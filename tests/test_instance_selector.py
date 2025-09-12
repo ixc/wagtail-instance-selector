@@ -18,10 +18,9 @@ User = get_user_model()
 
 class Tests(WebTest):
     """
-    Commented out tests are failing for the Wagtail 4.0 + releases.
-
-    Im not sure how relevant they are now that the widgets are being rendered
-    by javascript.
+    Tests for both InstanceSelectorPanel and InstanceSelectorBlock functionality:
+    - InstanceSelectorPanel is tested via ModelAdmin edit views.
+    - InstanceSelectorBlock is tested via StreamField edit views.
     """
 
     def setUp(self):
