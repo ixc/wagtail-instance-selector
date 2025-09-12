@@ -1,6 +1,11 @@
 Changelog
 =========
 
+### 3.1.1 (12/09/2025)
+
+- Fix bug causing `InstanceSelectorBlock` to return `[object Object]`.
+- Update styling for newer wagtail versions.
+
 ### 3.1.0 (09/09/2025)
 
 - Wagtail 6.3+ support, drops support for all versions before 6.3.
