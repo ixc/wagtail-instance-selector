@@ -1,11 +1,27 @@
 from django.db import models
 from wagtail.admin.panels import FieldPanel
+from wagtail.fields import StreamField
 
 from instance_selector.edit_handlers import InstanceSelectorPanel
+
+from .blocks import ImageBlock, ProductBlock
 
 
 class Shop(models.Model):
     title = models.CharField(max_length=1000)
+    content = StreamField(
+        [
+            ("products", ProductBlock()),
+            ("images", ImageBlock()),
+        ],
+        use_json_field=True,
+        blank=True,
+    )
+
+    panels = [
+        FieldPanel("title"),
+        FieldPanel("content"),
+    ]
 
     def __str__(self):
         return self.title
