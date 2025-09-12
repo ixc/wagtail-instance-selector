@@ -2,7 +2,13 @@ from django.utils.functional import cached_property, lazy
 from wagtail.blocks import ChooserBlock
 from wagtail.blocks.field_block import FieldBlockAdapter
 from wagtail.coreutils import resolve_model_string
-from wagtail.telepath import register
+
+# Handle Wagtail 8.0+ import location changes
+try:
+    from wagtail.admin.telepath import register
+except ImportError:
+    # Fallback for Wagtail < 8.0
+    from wagtail.telepath import register
 
 from instance_selector.registry import registry
 from instance_selector.widgets import InstanceSelectorWidget

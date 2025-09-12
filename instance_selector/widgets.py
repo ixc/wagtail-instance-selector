@@ -5,8 +5,15 @@ from django.template.loader import render_to_string
 from django.urls import reverse
 from django.utils.safestring import mark_safe
 from django.utils.translation import gettext_lazy as _
-from wagtail.telepath import register
-from wagtail.widget_adapters import WidgetAdapter
+
+# Handle Wagtail 8.0+ import location changes
+try:
+    from wagtail.admin.telepath import register
+    from wagtail.admin.telepath.widgets import WidgetAdapter
+except ImportError:
+    # Fallback for Wagtail < 8.0
+    from wagtail.telepath import register
+    from wagtail.widget_adapters import WidgetAdapter
 
 from instance_selector.constants import OBJECT_PK_PARAM
 from instance_selector.registry import registry
