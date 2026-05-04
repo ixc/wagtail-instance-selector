@@ -1,4 +1,37 @@
 function create_instance_selector_widget(opts) {
+    // Handle __prefix__ replacement issue introduced by Wagtail 6.4 PanelPlaceholder system.
+    //
+    // Problem: Wagtail 6.4 changed how panels are processed through PanelPlaceholder objects,
+    // which delayed panel construction until after JavaScript widget configuration is generated.
+    // For InlinePanels using Django formsets, this creates a timing mismatch:
+    // 1. Widget configuration is generated with __prefix__ placeholders
+    // 2. Django formset processing replaces __prefix__ with real indices (0, 1, 2...) in DOM
+    // 3. JavaScript tries to initialize widgets using __prefix__ IDs that no longer exist
+    //
+    // Solution: Detect __prefix__ in configuration and update it to match the actual DOM elements
+    if (opts.widget_id && opts.widget_id.includes('__prefix__')) {
+        // Check if the target input element exists in the DOM (with real ID, not __prefix__)
+        const targetInput = document.getElementById(opts.input_id);
+        if (!targetInput) {
+            // Element doesn't exist yet (still has __prefix__ in DOM), skip widget creation
+            // to prevent "Cannot find instance selector widget" errors
+            return;
+        }
+
+        // Element exists with real ID - use its actual attributes to fix the configuration
+        const actualFieldName = targetInput.name;
+        const actualInputId = targetInput.id;
+
+        opts.input_id = actualInputId;
+        opts.widget_id = actualInputId + '-instance-selector-widget';
+        opts.embed_id = actualFieldName;
+        opts.field_name = actualFieldName;
+
+        // Update embed_url to use the real index instead of __prefix__
+        const indexMatch = actualFieldName.match(/-(\d+)-/);
+        const index = indexMatch ? indexMatch[1] : '0';
+        opts.embed_url = opts.embed_url.replace(/__prefix__/g, index);
+    }
     const widget_root = $('#' + opts.widget_id);
     const field_input = $('#' + opts.input_id);
     const display_edit_link = widget_root.find('.js-instance-selector-widget-display-edit-link');

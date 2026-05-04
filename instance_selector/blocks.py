@@ -18,6 +18,10 @@ class InstanceSelectorBlock(ChooserBlock):
     class Meta:
         icon = "placeholder"
 
+    @cached_property
+    def widget(self):
+        return InstanceSelectorWidget(self.target_model)
+
     def __init__(self, target_model, **kwargs):
         super().__init__(**kwargs)
 
@@ -31,13 +35,6 @@ class InstanceSelectorBlock(ChooserBlock):
     @cached_property
     def target_model(self):
         return resolve_model_string(self._target_model)
-
-    @cached_property
-    def widget(self):
-        return InstanceSelectorWidget(self.target_model)
-
-    def get_form_state(self, value):
-        return self.widget.get_value_data(value)
 
     def get_instance_selector_icon(self):
         instance_selector = registry.get_instance_selector(self.target_model)
