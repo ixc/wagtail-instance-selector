@@ -8,6 +8,8 @@ from wagtail.models import Orderable, Page
 from instance_selector.blocks import InstanceSelectorBlock
 from instance_selector.edit_handlers import InstanceSelectorPanel
 
+from .blocks import ImageBlock, ProductBlock
+
 
 class Shop(models.Model):
     title = models.CharField(max_length=1000)
