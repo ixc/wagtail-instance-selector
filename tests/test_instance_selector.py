@@ -288,21 +288,35 @@ class Tests(WebTest):
             '"display_markup": "<div class=\\"instance-selector-widget__display instance-selector-widget__display--no-image\\"',
             body.attrs["data-w-block-data-value"],
         )
-        
+
         # Check that the page contains the proper widget structure  not "[object Object]"
         page_html = res.text
-        
+
         # Should contain the chooser button text
-        self.assertIn("Choose", page_html, "InstanceSelectorBlock should show chooser button")
-        
+        self.assertIn(
+            "Choose", page_html, "InstanceSelectorBlock should show chooser button"
+        )
+
         # Check that the widget is properly configured for telepath
         block_data_attrs = soup.find_all(attrs={"data-w-block-data-value": True})
-        self.assertGreater(len(block_data_attrs), 0, "Should have elements with block data for telepath")
-        
+        self.assertGreater(
+            len(block_data_attrs),
+            0,
+            "Should have elements with block data for telepath",
+        )
+
         # Verify that the block data contains proper widget configuration
         for element in block_data_attrs:
             block_data = element.get("data-w-block-data-value", "")
             # Should contain widget configuration, not raw object
-            self.assertNotIn("[object Object]", block_data, "Block data should not contain '[object Object]'")
+            self.assertNotIn(
+                "[object Object]",
+                block_data,
+                "Block data should not contain '[object Object]'",
+            )
             # Should contain proper widget structure
-            self.assertIn("instance-selector-widget", block_data, "Block data should contain proper widget structure")
+            self.assertIn(
+                "instance-selector-widget",
+                block_data,
+                "Block data should contain proper widget structure",
+            )

@@ -4,7 +4,7 @@ from wagtail_modeladmin.options import ModelAdmin, modeladmin_register
 from instance_selector.registry import registry
 from instance_selector.selectors import ModelAdminInstanceSelector
 
-from .models import Image, Product, Shop, Author
+from .models import Author, Image, Product, Shop
 
 
 @modeladmin_register

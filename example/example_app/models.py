@@ -1,16 +1,12 @@
 from django.db import models
-from wagtail.admin.panels import FieldPanel
-from wagtail.fields import StreamField
-
-from instance_selector.edit_handlers import InstanceSelectorPanel
-from instance_selector.blocks import InstanceSelectorBlock
-
-from wagtail.admin.panels import FieldPanel, InlinePanel
-from wagtail.models import Page, Orderable
-from wagtail.fields import StreamField
-from wagtail.blocks import CharBlock, RichTextBlock
-
 from modelcluster.fields import ParentalKey
+from wagtail.admin.panels import FieldPanel, InlinePanel
+from wagtail.blocks import CharBlock, RichTextBlock
+from wagtail.fields import StreamField
+from wagtail.models import Orderable, Page
+
+from instance_selector.blocks import InstanceSelectorBlock
+from instance_selector.edit_handlers import InstanceSelectorPanel
 
 
 class Shop(models.Model):
