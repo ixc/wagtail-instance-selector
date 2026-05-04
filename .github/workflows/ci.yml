@@ -20,7 +20,6 @@ jobs:
           - python-version: "3.12"
             wagtail-version: "7.1"
             django-version: "5.1"
-            django-tasks: "0.8.1"
 
     steps:
       - uses: actions/checkout@v4
