@@ -59,6 +59,11 @@ settings.configure(
         "WAGTAIL_SITE_NAME": "test",
         "SECRET_KEY": "fake-key",
         "WAGTAILADMIN_BASE_URL": "http://localhost:8000",
+        "TASKS": {
+            "default": {
+                "BACKEND": "django_tasks.backends.dummy.DummyBackend",
+            }
+        },
     }
 )
 
