@@ -6,11 +6,6 @@
     display: none;
 }
 
-/* Hide the add button */
-.is-instance-selector-embed .w-header .right {
-    display: none;
-}
-
 /* Override wagtail styles [smaller screens] to make sure the title appears in line with the rows */
 @media (max-width: 50em) {
     .is-instance-selector-embed .w-header.w-header--with-padding,
