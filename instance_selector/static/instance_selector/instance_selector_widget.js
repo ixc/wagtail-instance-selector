@@ -33,6 +33,21 @@ function create_instance_selector_widget(opts) {
         opts.embed_url = opts.embed_url.replace(/__prefix__/g, index);
     }
     const widget_root = $('#' + opts.widget_id);
+
+    // Inside StreamField blocks this function is called twice for the same
+    // widget: once directly by the telepath widget definition
+    // (instance_selector_telepath.js, which needs the widget API back
+    // synchronously) and again by the Stimulus `instance-selector`
+    // controller's connect(), which fires because the widget's root element
+    // also carries `data-controller="instance-selector"`. Without a guard,
+    // both calls bind their own click handler on the trigger button, so a
+    // single click opens two stacked modal dialogs. Cache the widget API on
+    // the root element so the second call is a no-op.
+    const existing_widget_api = widget_root.data('instanceSelectorWidgetApi');
+    if (existing_widget_api) {
+        return existing_widget_api;
+    }
+
     const field_input = $('#' + opts.input_id);
     const display_edit_link = widget_root.find('.js-instance-selector-widget-display-edit-link');
     const display_markup_wrap = widget_root.find('.js-instance-selector-widget-display-wrap');
@@ -68,7 +83,7 @@ function create_instance_selector_widget(opts) {
                             Close
                         </button>
                         <div class="modal-body instance-selector-widget-modal__body">
-                            <iframe class="instance-selector-widget-modal__embed" src="${opts.embed_url}" frameborder="0"></iframe>                        
+                            <iframe class="instance-selector-widget-modal__embed" src="${opts.embed_url}" frameborder="0"></iframe>
                         </div>
                     </div>
                 </div>
@@ -173,5 +188,6 @@ function create_instance_selector_widget(opts) {
             trigger_button.focus();
         },
     }
+    widget_root.data('instanceSelectorWidgetApi', widget_api);
     return widget_api;
 }

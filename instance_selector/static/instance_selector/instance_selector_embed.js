@@ -4,10 +4,20 @@
         ? window.parent.location.pathname.indexOf('/instance-selector/') !== -1
         : false;
 
-    const SESSION_STORAGE_EMBED_KEY = 'INSTANCE_SELECTOR_EMBED_ID';
+    const SESSION_STORAGE_EMBED_KEY_PREFIX = 'INSTANCE_SELECTOR_EMBED_ID';
 
     if (IS_INSTANCE_SELECTOR_EMBED) {
         const HASH_EMBED_ID = window.location.hash.split('#instance_selector_embed_id:')[1];
+
+        if (HASH_EMBED_ID && !window.name) {
+            // Give this specific frame a stable, unique identity so its
+            // sessionStorage key can't collide with any other (nested or
+            // sibling) instance-selector frame in the same tab.
+            window.name = SESSION_STORAGE_EMBED_KEY_PREFIX + ':' + HASH_EMBED_ID + ':' + Math.random().toString(36).slice(2);
+        }
+
+        const SESSION_STORAGE_EMBED_KEY = SESSION_STORAGE_EMBED_KEY_PREFIX + ':' + (window.name || 'default');
+
         // Persist embed id across page loads (allows clicking on filters, searching, etc)
         const SESSION_EMBED_ID = sessionStorage.getItem(SESSION_STORAGE_EMBED_KEY);
         if (HASH_EMBED_ID) {
@@ -56,7 +66,7 @@
             const success_messages = $('.messages .success');
             success_messages.each(function() {
                 const success_message = $(this);
-                
+
                 const buttons = success_message.find('.buttons a');
                 buttons.each(function() {
                     const button = $(this);
@@ -66,7 +76,7 @@
                         const data = get_data_from_url(url);
                         if (data) {
                             const select_button = $(`
-                                <a 
+                                <a
                                     class="button button-small button-secondary instance-selector__success-message__select-button"
                                     data-object-pk-for-debugging="${data.object_pk}"
                                 >Select</a>
